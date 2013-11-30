@@ -89,13 +89,15 @@ public class UserMgmt {
      * Retrieves all user information
      * using EGN as super-key to SELECT the user
      * 
-     * @param egn - Existing user EGN
+     * @param egn - Existing user EGN from "users" in MySQl
      * @return ResultSet - all user personal information
      * @throws SQLException 
      */
     public static ResultSet getUser(String egn) throws SQLException {
 
-        ResultSet _resultSet = DatabaseMgmt.Select("SELECT * FROM users "
+        ResultSet _resultSet;
+        
+        _resultSet = DatabaseMgmt.Select("SELECT * FROM users "
                 + "WHERE egn =(?)", egn);
 
         return _resultSet;
