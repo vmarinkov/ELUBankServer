@@ -95,6 +95,7 @@ public class UserMgmt {
      */
     public static ResultSet getUser(String egn) throws SQLException {
 
+        //kato kukata
         ResultSet _resultSet;
         
         _resultSet = DatabaseMgmt.Select("SELECT * FROM users "
