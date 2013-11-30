@@ -67,3 +67,7 @@ Bank ELU - CSCB Project
 	                             Ако и 2те ни се сложат прекалоно трудоемки за реализация - ползваме 
 	                             сегашният прост чат многонишков клиент/сървър.
 	Евентуално .ini файл в който да се съхранят.
+	
+	Usefull links:
+	JDBC and MySQL tutorial - http://zetcode.com/db/mysqljava/
+	
