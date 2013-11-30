@@ -6,10 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * This class is used to manage Database connection as well as executing updates
- * and queries
+ * MySQL Database management: connect and disconnect
+ * as well as executing updates and queries
  *
- * @author ELU_Bank team
+ * @author ELUBank team
  */
 public class DatabaseMgmt {
 

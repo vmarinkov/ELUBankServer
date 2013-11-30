@@ -4,6 +4,13 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Containing the main class
+ * This is where both the Server and Administrator's GUI
+ * will be started
+ * 
+ * @author ELUBank team
+ */
 public class ELUBank_Server {
 
     public static void main(String[] args) {

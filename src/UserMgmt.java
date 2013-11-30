@@ -4,8 +4,9 @@ import java.math.BigInteger;
 import java.security.*;
 
 /**
- *
- * @author evlogimi
+ * User management operations
+ * 
+ * @author ELUBank team
  */
 public class UserMgmt {
 
