@@ -15,7 +15,7 @@ public class DatabaseMgmt {
 
     // JDBC driver name and database URL & credentials
     private static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-    private static final String DB_URL = "jdbc:mysql://localhost/proekt1";
+    private static final String DB_URL = "jdbc:mysql://localhost/proekt11";
     private static final String DB_USER = "proekt1";
     private static final String DB_PASS = "proekt1";
 

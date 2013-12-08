@@ -70,5 +70,4 @@ Bank ELU - CSCB Project
 	
 	Usefull links:
 	JDBC and MySQL tutorial - http://zetcode.com/db/mysqljava/
-	Prepared Statements - http://docs.oracle.com/javase/tutorial/jdbc/basics/prepared.html
-	Store Procedures - http://docs.oracle.com/javase/tutorial/jdbc/basics/storedprocedures.html
+	

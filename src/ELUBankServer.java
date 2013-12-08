@@ -17,8 +17,7 @@ public class ELUBankServer {
 
         try {
             DatabaseMgmt.Connect();
-            Server srv = new Server();
-            srv.startServer();
+            new SSLServer().startServer();
 
 //            String[] newUser = {null, "test22", "test33", "Pesho", "Petrov", "Kirilov",
 //                "1341", "Sofia 300", "08989", "pesho@bank.com",
@@ -57,11 +56,11 @@ public class ELUBankServer {
             //  UserMgmt.deleteUser("1341");
             //  Thread.sleep(120000); // sleep for 2 minutes
             //  DatabaseMgmt.Disconnect();
-        } catch (SQLException ex) {
-            //System.out.println(ex.getMessage());
-            Logger lgr = Logger.getLogger(ELUBankServer.class.getName());
-            lgr.log(Level.SEVERE, ex.getMessage(), ex);
-        } catch (ClassNotFoundException ex) {
+//        } catch (SQLException ex) {
+//            //System.out.println(ex.getMessage());
+//            Logger lgr = Logger.getLogger(ELUBankServer.class.getName());
+//            lgr.log(Level.SEVERE, ex.getMessage(), ex);
+//        } catch (ClassNotFoundException ex) {
             //   Logger.getLogger(ELUBank_Server.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
             Logger.getLogger(ELUBankServer.class.getName()).log(Level.SEVERE, null, ex);
