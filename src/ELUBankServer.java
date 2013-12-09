@@ -16,7 +16,7 @@ public class ELUBankServer {
     public static void main(String[] args) {
 
         try {
-            DatabaseMgmt.Connect();
+            DatabaseMgmt.connect();
             new SSLServer().startServer();
 
 //            String[] newUser = {null, "test22", "test33", "Pesho", "Petrov", "Kirilov",

@@ -6,8 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * MySQL Database management: connect and disconnect
- * as well as executing updates and queries
+ * MySQL Database management: connect and disconnect as well as executing
+ * updates and queries
  *
  * @author ELUBank team
  */
@@ -15,7 +15,7 @@ public class DatabaseMgmt {
 
     // JDBC driver name and database URL & credentials
     private static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-    private static final String DB_URL = "jdbc:mysql://localhost/proekt1";
+    private static final String DB_URL = "jdbc:mysql://localhost/proekt11";
     private static final String DB_USER = "proekt1";
     private static final String DB_PASS = "proekt1";
 
@@ -30,7 +30,7 @@ public class DatabaseMgmt {
      * @throws SQLException
      * @throws ClassNotFoundException
      */
-    public static void Connect() throws SQLException, ClassNotFoundException {
+    public static void connect() throws SQLException, ClassNotFoundException {
 
         //Register the JDBC driver
         Class.forName(JDBC_DRIVER);
@@ -48,7 +48,7 @@ public class DatabaseMgmt {
      *
      * @throws SQLException
      */
-    public static void Disconnect() throws SQLException {
+    public static void disconnect() throws SQLException {
 
         if (_preparedStmt != null) {
             _preparedStmt.close();
@@ -68,7 +68,7 @@ public class DatabaseMgmt {
      * @param value - Value that will be managed
      * @throws SQLException
      */
-    public static void Execute(String sql,
+    public static void execute(String sql,
             String value) throws SQLException {
 
         //@TODO remove these when we done
@@ -90,7 +90,7 @@ public class DatabaseMgmt {
      * @param values - Values that will be managed
      * @throws SQLException
      */
-    public static void Execute(String sql,
+    public static void execute(String sql,
             String[] values) throws SQLException {
 
         //@TODO remove these when we done
@@ -115,7 +115,7 @@ public class DatabaseMgmt {
      * @param values - Values that will be managed
      * @throws SQLException
      */
-    public static void Execute(String sql, String[] columnNames,
+    public static void execute(String sql, String[] columnNames,
             String[] values) throws SQLException {
 
         //@TODO remove these when we done
@@ -139,7 +139,7 @@ public class DatabaseMgmt {
      * @return ResultSet - information contained in the selected roll
      * @throws SQLException
      */
-    public static ResultSet Select(String sql, String value) throws SQLException {
+    public static ResultSet select(String sql, String value) throws SQLException {
 
         //@TODO remove these when we done
         System.out.println("Selecting from Mysql...");
@@ -162,7 +162,7 @@ public class DatabaseMgmt {
      * @return ResultSet - information contained in the selected roll
      * @throws SQLException
      */
-    public static ResultSet Select(String sql, String[] values) throws SQLException {
+    public static ResultSet select(String sql, String[] values) throws SQLException {
 
         //@TODO remove these when we done
         System.out.println("Selecting from Mysql...");

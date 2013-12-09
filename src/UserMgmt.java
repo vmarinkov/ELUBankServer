@@ -24,7 +24,7 @@ public class UserMgmt {
 
         newUser[2] = hashpass(newUser[2]);
 
-        DatabaseMgmt.Execute("INSERT INTO users VALUES"
+        DatabaseMgmt.execute("INSERT INTO users VALUES"
                 + "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", columnNames, newUser);
     }
 
@@ -41,7 +41,7 @@ public class UserMgmt {
         update[0] = "1";
         update[1] = egn;
 
-        DatabaseMgmt.Execute("UPDATE users SET isactive =(?)"
+        DatabaseMgmt.execute("UPDATE users SET isactive =(?)"
                 + " WHERE egn =(?) LIMIT 1", update);
     }
 
@@ -55,7 +55,7 @@ public class UserMgmt {
     // @TODO REMOVE USER_ID from users, use egn as super key isntead !!!!
     public static void deleteUser(String egn) throws SQLException {
 
-        DatabaseMgmt.Execute("DELETE FROM users WHERE egn =(?) LIMIT 1", egn);
+        DatabaseMgmt.execute("DELETE FROM users WHERE egn =(?) LIMIT 1", egn);
     }
 
     /**
@@ -74,7 +74,7 @@ public class UserMgmt {
         userCredentials[0] = username;
         userCredentials[1] = password;
 
-        ResultSet _resultSet = DatabaseMgmt.Select("SELECT isactive FROM users "
+        ResultSet _resultSet = DatabaseMgmt.select("SELECT isactive FROM users "
                 + "WHERE username =(?) AND password =(?)", userCredentials);
 
         // ако съществува такъв запис в таблицата и е активиран
@@ -97,7 +97,7 @@ public class UserMgmt {
 
         ResultSet _resultSet;
         
-        _resultSet = DatabaseMgmt.Select("SELECT * FROM users "
+        _resultSet = DatabaseMgmt.select("SELECT * FROM users "
                 + "WHERE egn =(?)", egn);
 
         return _resultSet;
