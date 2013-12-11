@@ -5,7 +5,7 @@ public class User implements Serializable {
 
     static final long serialVersionUID = 1L;
 
-    private String userId, username, password, name, sirname, familyname,
+    private String userId, username, password, name, surname, familyname,
             egn, address, phone, email, userType, pinCode, isActive, request;
 
     boolean loggedIn = false;
@@ -14,13 +14,13 @@ public class User implements Serializable {
     }
 
     public User(String userId, String username, String password, String name,
-            String sirname, String familyname, String egn, String address,
+            String surname, String familyname, String egn, String address,
             String phone, String email, String userType, String pinCode, String isActive) {
         this.userId = userId;
         this.username = username;
         this.password = password;
         this.name = name;
-        this.sirname = sirname;
+        this.surname = surname;
         this.familyname = familyname;
         this.egn = egn;
         this.address = address;
@@ -45,6 +45,30 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getFamilyname() {
+        return familyname;
+    }
+
+    public void setFamilyname(String familyname) {
+        this.familyname = familyname;
     }
 
     public String getRequest() {

@@ -2,6 +2,7 @@
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,6 +33,15 @@ public class SSLServerThread extends Thread {
                 User user = (User) receivedObj;
                 if (user.getRequest().equalsIgnoreCase("login")) {
                     if (UserMgmt.login(user.getUsername(), user.getPassword())) {
+
+                        ResultSet _resResultSet = UserMgmt.getUser("8612126737");
+
+                        while (_resResultSet.next()) {
+                            user.setName(_resResultSet.getString("name"));
+                            user.setSurname(_resResultSet.getString("sirname")); //to fix sirname = surname @ table
+                            user.setFamilyname(_resResultSet.getString("familyname"));
+                        }
+
                         user.setLoggedIn(true);
                         objOutStream.writeObject(user);
                     }

@@ -5,10 +5,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Containing the main class
- * This is where both the Server and Administrator's GUI
- * will be started
- * 
+ * Containing the main class This is where both the Server and Administrator's
+ * GUI will be started
+ *
  * @author ELUBank team
  */
 public class ELUBankServer {
@@ -17,11 +16,12 @@ public class ELUBankServer {
 
         try {
             DatabaseMgmt.connect();
+            System.out.println("Server started...");
             new SSLServer().startServer();
 
-//            String[] newUser = {null, "test22", "test33", "Pesho", "Petrov", "Kirilov",
-//                "1341", "Sofia 300", "08989", "pesho@bank.com",
-//                "0", "1341", "324"};
+//            String[] newUser = {null, "test3", "test3", "Petar", "Petrov", "Georgiev",
+//                "8612126737", "Sofia Ovcha Kupel 1 524 D", "0878989838", "petko@abv.bg",
+//                "1", "1343", "1"};
 //            UserMgmt.createUser(newUser);
 //            // UserMgmt.activateUser("1341");
 //            if (UserMgmt.login("test22", "test33")) {
@@ -52,7 +52,6 @@ public class ELUBankServer {
 //            System.out.printf("Address: %1$s  Phone: %2$d \n", address, phone);
 //            System.out.printf("EGN: %1$d \nemail: %2$s \n", egn, email);
 //            //end printing the user info
-
             //  UserMgmt.deleteUser("1341");
             //  Thread.sleep(120000); // sleep for 2 minutes
             //  DatabaseMgmt.Disconnect();

@@ -25,7 +25,6 @@ public class SSLServer {
         // which happens between the SSLClient and the SSLServer
         //System.setProperty("javax.net.debug", "all");
         // Initialize the Server Socket
-        
         sslServerSocketfactory = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
         sslServerSocket = (SSLServerSocket) sslServerSocketfactory.createServerSocket(PORT);
 
