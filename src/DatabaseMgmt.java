@@ -71,7 +71,6 @@ public class DatabaseMgmt {
     public static void execute(String sql,
             String value) throws SQLException {
 
-        //@TODO remove these when we done
         System.out.println("Executing to Mysql...");
         System.out.println(sql);
 
@@ -93,7 +92,6 @@ public class DatabaseMgmt {
     public static void execute(String sql,
             String[] values) throws SQLException {
 
-        //@TODO remove these when we done
         System.out.println("Executing to Mysql...");
         System.out.println(sql);
 
@@ -118,7 +116,6 @@ public class DatabaseMgmt {
     public static void execute(String sql, String[] columnNames,
             String[] values) throws SQLException {
 
-        //@TODO remove these when we done
         System.out.println("Executing to Mysql...");
         System.out.println(sql);
 
@@ -141,7 +138,6 @@ public class DatabaseMgmt {
      */
     public static ResultSet select(String sql, String value) throws SQLException {
 
-        //@TODO remove these when we done
         System.out.println("Selecting from Mysql...");
         System.out.println(sql);
 
@@ -164,7 +160,6 @@ public class DatabaseMgmt {
      */
     public static ResultSet select(String sql, String[] values) throws SQLException {
 
-        //@TODO remove these when we done
         System.out.println("Selecting from Mysql...");
         System.out.println(sql);
 
