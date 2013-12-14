@@ -16,12 +16,12 @@ public class ELUBankServer {
 
         try {
             DatabaseMgmt.connect();
-            System.out.println("Server started...");
-            new SSLServer().startServer();
-
-//            String[] newUser = {null, "test3", "test3", "Petar", "Petrov", "Georgiev",
-//                "8612126737", "Sofia Ovcha Kupel 1 524 D", "0878989838", "petko@abv.bg",
-//                "1", "1343", "1"};
+//            System.out.println("Server started...");
+//            new SSLServer().startServer();
+//
+//            String[] newUser = {"test3", "test3", "Petar", "Pertrov", "Georgiev",
+//                "8612123737", "Sofia Ovcha Kupel 1 524 D", "0878989838", "petko@abv.bg",
+//                "1"};
 //            UserMgmt.createUser(newUser);
 //            // UserMgmt.activateUser("1341");
 //            if (UserMgmt.login("test22", "test33")) {

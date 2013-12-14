@@ -20,14 +20,13 @@ public class UserMgmt {
      */
     public static void createUser(String[] newUser) throws SQLException {
 
-        String[] columnNames = {"user_id", "username", "password",
-            "name", "sirname", "familyname", "egn", "address", "phone",
-            "email", "usertype", "pin_code", "isactive"};
+        String[] columnNames = {"username", "password", "name", "surname",
+            "familyname", "egn", "address", "phone", "email", "usertype"};
 
-        newUser[2] = hashpass(newUser[2]);
+        newUser[1] = hashpass(newUser[1]);
 
         DatabaseMgmt.execute("INSERT INTO users VALUES"
-                + "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", columnNames, newUser);
+                + "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", columnNames, newUser);
     }
 
     /**
