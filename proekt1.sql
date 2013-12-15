@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 11, 2013 at 08:08 PM
+-- Generation Time: Dec 15, 2013 at 04:27 PM
 -- Server version: 5.5.32
 -- PHP Version: 5.4.19
 
@@ -29,11 +29,12 @@ USE `proekt1`;
 --
 
 CREATE TABLE IF NOT EXISTS `accounts` (
-  `account_id` int(10) NOT NULL,
+  `username` varchar(255) NOT NULL,
   `iban` varchar(255) NOT NULL,
-  `user_id` int(10) NOT NULL,
+  `currency` float NOT NULL,
   `amount` float NOT NULL,
-  `currency` float NOT NULL
+  UNIQUE KEY `username_2` (`username`),
+  KEY `username` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -114,33 +115,30 @@ CREATE TABLE IF NOT EXISTS `transactions` (
 --
 
 CREATE TABLE IF NOT EXISTS `users` (
-  `user_id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'Unic interlan identification',
   `username` varchar(255) NOT NULL COMMENT 'username',
   `password` varchar(255) NOT NULL COMMENT 'password, md5 + salt',
   `name` varchar(255) NOT NULL COMMENT 'First name ',
-  `sirname` varchar(255) NOT NULL COMMENT 'Second name',
+  `surname` varchar(255) NOT NULL COMMENT 'Middle name',
   `familyname` varchar(255) NOT NULL COMMENT 'Family name',
   `egn` decimal(10,0) NOT NULL COMMENT 'EGN',
+  `country` varchar(255) NOT NULL,
+  `city` varchar(255) NOT NULL,
   `address` varchar(255) NOT NULL COMMENT 'Home address',
   `phone` varchar(255) NOT NULL COMMENT 'Telephone number',
   `email` varchar(50) NOT NULL COMMENT 'Email',
   `usertype` int(1) NOT NULL COMMENT 'Type of the user, admin or normal',
-  `pin_code` int(4) NOT NULL COMMENT 'PIN Code',
-  `isactive` int(1) NOT NULL COMMENT 'Is the user activated',
-  PRIMARY KEY (`egn`),
-  UNIQUE KEY `id` (`user_id`),
+  PRIMARY KEY (`username`),
   UNIQUE KEY `egn` (`egn`),
-  KEY `id_2` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+  UNIQUE KEY `username` (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`user_id`, `username`, `password`, `name`, `sirname`, `familyname`, `egn`, `address`, `phone`, `email`, `usertype`, `pin_code`, `isactive`) VALUES
-(1, 'test', '74a787a842a6f098abd883cb39dce1a', '', '', '', '0', '', '', '', 0, 0, 1),
-(4, 'test2', '3c2131bd3826358a02762f7990da4903', 'Pesho', 'Petrov', 'Kirilov', '1234567890', 'Sofia, 1000', '+359 12345', 'pesho@elubank.com', 0, 1234, 0),
-(8, 'test3', '3c2131bd3826358a02762f7990da4903', 'Petar', 'Petrov', 'Georgiev', '8612126737', 'Sofia Ovcha Kupel 1 524 D', '0878989838', 'petko@abv.bg', 1, 1343, 1);
+INSERT INTO `users` (`username`, `password`, `name`, `surname`, `familyname`, `egn`, `country`, `city`, `address`, `phone`, `email`, `usertype`) VALUES
+('test2', '3c2131bd3826358a02762f7990da4903', 'Pesho', 'Petrov', 'Kirilov', '1234567890', '', '', 'Sofia, 1000', '+359 12345', 'pesho@elubank.com', 0),
+('test3', '3c2131bd3826358a02762f7990da4903', 'Petar', 'Petrov', 'Georgiev', '8612126737', '', '', 'Sofia Ovcha Kupel 1 524 D', '0878989838', 'petko@abv.bg', 1);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
