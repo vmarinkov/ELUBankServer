@@ -38,7 +38,7 @@ public class SSLServerThread extends Thread {
 
                         while (_resResultSet.next()) {
                             user.setName(_resResultSet.getString("name"));
-                            user.setSurname(_resResultSet.getString("sirname")); //to fix sirname = surname @ table
+                            user.setSurname(_resResultSet.getString("surname"));
                             user.setFamilyname(_resResultSet.getString("familyname"));
                         }
 
