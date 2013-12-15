@@ -16,8 +16,8 @@ public class ELUBankServer {
 
         try {
             DatabaseMgmt.connect();
-//            System.out.println("Server started...");
-//            new SSLServer().startServer();
+            System.out.println("Server started...");
+            new SSLServer().startServer();
 //
 //            String[] newUser = {"test3", "test3", "Petar", "Pertrov", "Georgiev",
 //                "8612123737", "Sofia Ovcha Kupel 1 524 D", "0878989838", "petko@abv.bg",

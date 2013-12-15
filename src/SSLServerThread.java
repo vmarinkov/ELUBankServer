@@ -34,7 +34,7 @@ public class SSLServerThread extends Thread {
                 if (user.getRequest().equalsIgnoreCase("login")) {
                     if (UserMgmt.login(user.getUsername(), user.getPassword())) {
 
-                        ResultSet _resResultSet = UserMgmt.getUser("8612126737");
+                        ResultSet _resResultSet = UserMgmt.getUser(user.getUsername());
 
                         while (_resResultSet.next()) {
                             user.setName(_resResultSet.getString("name"));

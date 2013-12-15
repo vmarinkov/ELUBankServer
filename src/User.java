@@ -6,15 +6,16 @@ public class User implements Serializable {
     static final long serialVersionUID = 1L;
 
     private String username, password, name, surname, familyname,
-            egn, address, phone, email, userType, request;
+            egn, country, city, address, phone, email, userType, request;
 
     boolean loggedIn = false;
 
     public User() {
     }
 
-    public User(String username, String password, String name,
-            String surname, String familyname, String egn, String address,
+    public User(String username, String password,
+            String name, String surname, String familyname,
+            String egn, String country, String city, String address,
             String phone, String email, String userType) {
         this.username = username;
         this.password = password;
@@ -22,10 +23,12 @@ public class User implements Serializable {
         this.surname = surname;
         this.familyname = familyname;
         this.egn = egn;
+        this.country = country;
+        this.city = city;
         this.address = address;
         this.phone = phone;
         this.email = email;
-        this.userType = userType;        
+        this.userType = userType;
     }
 
     public String getUsername() {

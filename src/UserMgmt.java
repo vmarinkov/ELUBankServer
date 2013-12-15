@@ -21,42 +21,41 @@ public class UserMgmt {
     public static void createUser(String[] newUser) throws SQLException {
 
         String[] columnNames = {"username", "password", "name", "surname",
-            "familyname", "egn", "address", "phone", "email", "usertype"};
+            "familyname", "egn", "country", "city",
+            "address", "phone", "email", "usertype"};
 
         newUser[1] = hashpass(newUser[1]);
 
         DatabaseMgmt.execute("INSERT INTO users VALUES"
-                + "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", columnNames, newUser);
+                + "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", columnNames, newUser);
     }
 
-    /**
-     * Activates an existing user (UPDATE to MySQL)
-     *
-     * @param egn - Using EGN as a super key to specify which user should be
-     * activated
-     * @throws SQLException
-     */
-    public static void activateUser(String egn) throws SQLException {
-
-        String[] update = new String[2];
-        update[0] = "1";
-        update[1] = egn;
-
-        DatabaseMgmt.execute("UPDATE users SET isactive =(?)"
-                + " WHERE egn =(?) LIMIT 1", update);
-    }
-
+//    /**
+//     * Activates an existing user (UPDATE to MySQL)
+//     *
+//     * @param egn - Using EGN as a super key to specify which user should be
+//     * activated
+//     * @throws SQLException
+//     */
+//    public static void activateUser(String egn) throws SQLException {
+//
+//        String[] update = new String[2];
+//        update[0] = "1";
+//        update[1] = egn;
+//
+//        DatabaseMgmt.execute("UPDATE users SET isactive =(?)"
+//                + " WHERE egn =(?) LIMIT 1", update);
+//    }
     /**
      * Deletes an existing user (DELETE from MySQL)
      *
-     * @param egn - Using EGN as a super key to specify which user should be
-     * deleted
+     * @param username - Using USERNAME as a super key to specify which user
+     * should be deleted
      * @throws SQLException
      */
-    // @TODO REMOVE USER_ID from users, use egn as super key isntead !!!!
-    public static void deleteUser(String egn) throws SQLException {
+    public static void deleteUser(String username) throws SQLException {
 
-        DatabaseMgmt.execute("DELETE FROM users WHERE egn =(?) LIMIT 1", egn);
+        DatabaseMgmt.execute("DELETE FROM users WHERE username =(?) LIMIT 1", username);
     }
 
     /**
@@ -75,11 +74,11 @@ public class UserMgmt {
         userCredentials[0] = username;
         userCredentials[1] = password;
 
-        ResultSet _resultSet = DatabaseMgmt.select("SELECT isactive FROM users "
+        ResultSet _resultSet = DatabaseMgmt.select("SELECT * FROM users "
                 + "WHERE username =(?) AND password =(?)", userCredentials);
 
         // ако съществува такъв запис в таблицата и е активиран
-        if (_resultSet.next() && _resultSet.getInt("isactive") == 1) {
+        if (_resultSet.next()) {
             return true;
         } else { // ако не са изъпълнени горните 2 - логин фейл
             return false;
@@ -89,16 +88,16 @@ public class UserMgmt {
     /**
      * Retrieves all user information using EGN as super-key to SELECT the user
      *
-     * @param egn - Existing user EGN from "users" in MySQl
+     * @param username - Existing username from "users" in MySQl
      * @return ResultSet - all user personal information
      * @throws SQLException
      */
-    public static ResultSet getUser(String egn) throws SQLException {
+    public static ResultSet getUser(String username) throws SQLException {
 
         ResultSet _resultSet;
 
         _resultSet = DatabaseMgmt.select("SELECT * FROM users "
-                + "WHERE egn =(?)", egn);
+                + "WHERE username =(?)", username);
 
         return _resultSet;
     }
