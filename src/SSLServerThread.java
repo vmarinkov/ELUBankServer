@@ -39,7 +39,14 @@ public class SSLServerThread extends Thread {
                         while (_resResultSet.next()) {
                             user.setName(_resResultSet.getString("name"));
                             user.setSurname(_resResultSet.getString("surname"));
-                            user.setFamilyname(_resResultSet.getString("familyname"));
+                            user.setFamilyname(_resResultSet.getString("familyname"));                  
+                            user.setEgn(_resResultSet.getString("egn"));
+                            user.setCountry(_resResultSet.getString("country"));
+                            user.setCity(_resResultSet.getString("city"));
+                            user.setAddress(_resResultSet.getString("address"));
+                            user.setPhone(_resResultSet.getString("phone"));
+                            user.setEmail(_resResultSet.getString("email"));
+                            user.setUserType(_resResultSet.getString("usertype"));
                         }
 
                         user.setLoggedIn(true);
