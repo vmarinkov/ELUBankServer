@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 15, 2013 at 04:27 PM
+-- Generation Time: Dec 20, 2013 at 01:04 PM
 -- Server version: 5.5.32
 -- PHP Version: 5.4.19
 
@@ -137,8 +137,8 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`username`, `password`, `name`, `surname`, `familyname`, `egn`, `country`, `city`, `address`, `phone`, `email`, `usertype`) VALUES
-('test2', '3c2131bd3826358a02762f7990da4903', 'Pesho', 'Petrov', 'Kirilov', '1234567890', '', '', 'Sofia, 1000', '+359 12345', 'pesho@elubank.com', 0),
-('test3', '3c2131bd3826358a02762f7990da4903', 'Petar', 'Petrov', 'Georgiev', '8612126737', '', '', 'Sofia Ovcha Kupel 1 524 D', '0878989838', 'petko@abv.bg', 1);
+('test', 'cdb1f8e74b5bcd49d5c4185522a6fcc', 'Petar', 'Pertrov', 'Georgiev', '8612123738', 'Bulgaria', 'Sofia', 'Sofia Ovcha Kupel 1 524 D', '0878989838', 'petko@abv.bg', 1),
+('test3', '3c2131bd3826358a02762f7990da4903', 'Petar', 'Pertrov', 'Georgiev', '8612123737', 'Bulgaria', 'Sofia', 'Sofia Ovcha Kupel 1 524 D', '0878989838', 'petko@abv.bg', 1);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
