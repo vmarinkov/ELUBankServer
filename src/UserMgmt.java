@@ -15,19 +15,22 @@ public class UserMgmt {
     /**
      * Crates a new INACTIVE user (INSERT into MySQL)
      *
-     * @param newUser - String[] array containing all user data
+     * @param user - containing all new user data
      * @throws SQLException
      */
-    public static void createUser(String[] newUser) throws SQLException {
+    public static void createUser(User user) throws SQLException {
 
+        String[] newUser;
         String[] columnNames = {"username", "password", "name", "surname",
-            "familyname", "egn", "country", "city",
+            "familyname", "egn", "bday", "bmonth", "byear", "country", "city",
             "address", "phone", "email", "usertype"};
 
+        newUser = (user.toString()).split("::");
         newUser[1] = hashpass(newUser[1]);
 
         DatabaseMgmt.execute("INSERT INTO users VALUES"
-                + "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", columnNames, newUser);
+                + "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                columnNames, newUser);
     }
 
 //    /**

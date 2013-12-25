@@ -30,8 +30,11 @@ public class SSLServerThread extends Thread {
             receivedObj = objInStream.readObject();
 
             if (receivedObj instanceof User) {
+
                 User user = (User) receivedObj;
+
                 if (user.getRequest().equalsIgnoreCase("login")) {
+
                     if (UserMgmt.login(user.getUsername(), user.getPassword())) {
 
                         ResultSet _resResultSet = UserMgmt.getUser(user.getUsername());
@@ -39,7 +42,7 @@ public class SSLServerThread extends Thread {
                         while (_resResultSet.next()) {
                             user.setName(_resResultSet.getString("name"));
                             user.setSurname(_resResultSet.getString("surname"));
-                            user.setFamilyname(_resResultSet.getString("familyname"));                  
+                            user.setFamilyname(_resResultSet.getString("familyname"));
                             user.setEgn(_resResultSet.getString("egn"));
                             user.setCountry(_resResultSet.getString("country"));
                             user.setCity(_resResultSet.getString("city"));
@@ -50,9 +53,13 @@ public class SSLServerThread extends Thread {
                         }
 
                         user.setLoggedIn(true);
-                        objOutStream.writeObject(user);
                     }
+
+                } else if (user.getRequest().equalsIgnoreCase("create")) {
+
+                    UserMgmt.createUser(user);
                 }
+
                 objOutStream.writeObject(user);
             }
 

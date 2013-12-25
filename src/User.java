@@ -6,7 +6,8 @@ public class User implements Serializable {
     static final long serialVersionUID = 1L;
 
     private String username, password, name, surname, familyname,
-            egn, country, city, address, phone, email, userType, request;
+            egn, dayOfBirth, monthOfBirth, yearOfBirth, country,
+            city, address, phone, email, userType, request;
 
     boolean loggedIn = false;
 
@@ -79,6 +80,30 @@ public class User implements Serializable {
         this.egn = egn;
     }
 
+    public String getDayOfBirth() {
+        return dayOfBirth;
+    }
+
+    public void setDayOfBirth(String dayOfBirth) {
+        this.dayOfBirth = dayOfBirth;
+    }
+
+    public String getMonthOfBirth() {
+        return monthOfBirth;
+    }
+
+    public void setMonthOfBirth(String monthOfBirth) {
+        this.monthOfBirth = monthOfBirth;
+    }
+
+    public String getYearOfBirth() {
+        return yearOfBirth;
+    }
+
+    public void setYearOfBirth(String yearOfBirth) {
+        this.yearOfBirth = yearOfBirth;
+    }
+
     public String getCountry() {
         return country;
     }
@@ -141,5 +166,13 @@ public class User implements Serializable {
 
     public void setLoggedIn(boolean isloggedIn) {
         this.loggedIn = isloggedIn;
+    }
+
+    @Override
+    public String toString() {
+        return username + "::" + password + "::" + name + "::" + surname + "::"
+                + familyname + "::" + egn + "::" + dayOfBirth + "::" + monthOfBirth + "::"
+                + yearOfBirth + "::" + country + "::" + city + "::" + address + "::"
+                + phone + "::" + email + "::" + userType;
     }
 }
