@@ -77,10 +77,9 @@ public class UserMgmt {
         ResultSet _resultSet = DatabaseMgmt.select("SELECT * FROM users "
                 + "WHERE username =(?) AND password =(?)", userCredentials);
 
-        // ако съществува такъв запис в таблицата и е активиран
         if (_resultSet.next()) {
             return true;
-        } else { // ако не са изъпълнени горните 2 - логин фейл
+        } else {
             return false;
         }
     }
