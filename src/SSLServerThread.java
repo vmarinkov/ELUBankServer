@@ -35,6 +35,8 @@ public class SSLServerThread extends Thread {
                 user = (User) receivedObj;
 
                 if (user.getRequest().equalsIgnoreCase("login")) {
+                    
+                    System.out.println("User login request from " + sslSocket.getInetAddress());
 
                     if (UserMgmt.login(user.getUsername(), user.getPassword())) {
 
@@ -57,6 +59,8 @@ public class SSLServerThread extends Thread {
                     }
 
                 } else if (user.getRequest().equalsIgnoreCase("create")) {
+                    
+                    System.out.println("Create new user request from " + sslSocket.getInetAddress());
 
                     UserMgmt.createUser(user);
                 }
