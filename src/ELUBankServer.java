@@ -19,6 +19,10 @@ public class ELUBankServer {
             System.out.println("Server started...");
             new SSLServer().startServer();
 
+//            User user = new User("test22", "test2", "Petar", "Pertrov", "Georgiev",
+//                    "8612125557", "31", "12", "1966", "Bulgaria", "Sofia",
+//                    "Sofia Ovcha Kupel 1 524 D", "0878989838", "petko@abv.bg", "3");
+//            UserMgmt.createUser(user);
             //  UserMgmt.deleteUser("1341");
             //  DatabaseMgmt.disconnect();
         } catch (SQLException | ClassNotFoundException | IOException ex) {

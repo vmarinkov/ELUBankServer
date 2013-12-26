@@ -3,27 +3,33 @@ import java.io.Serializable;
 
 public class User implements Serializable {
 
-    static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
+    private static final String DELIMITER = "::";
 
     private String username, password, name, surname, familyname,
             egn, dayOfBirth, monthOfBirth, yearOfBirth, country,
-            city, address, phone, email, userType, request;
+            city, address, phone, email, userType;
 
-    boolean loggedIn = false;
+    private String request = null, response = null;
+    private boolean loggedIn = false;
 
     public User() {
     }
 
-    public User(String username, String password,
-            String name, String surname, String familyname,
-            String egn, String country, String city, String address,
+    public User(String username, String password, String name, String surname,
+            String familyname, String egn, String dayOfBirth, String monthOfBirth,
+            String yearOfBirth, String country, String city, String address,
             String phone, String email, String userType) {
+
         this.username = username;
         this.password = password;
         this.name = name;
         this.surname = surname;
         this.familyname = familyname;
         this.egn = egn;
+        this.dayOfBirth = dayOfBirth;
+        this.monthOfBirth = monthOfBirth;
+        this.yearOfBirth = yearOfBirth;
         this.country = country;
         this.city = city;
         this.address = address;
@@ -160,6 +166,14 @@ public class User implements Serializable {
         this.request = request;
     }
 
+    public String getResponse() {
+        return response;
+    }
+
+    public void setResponse(String response) {
+        this.response = response;
+    }
+
     public boolean getLoggedIn() {
         return loggedIn;
     }
@@ -170,9 +184,14 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return username + "::" + password + "::" + name + "::" + surname + "::"
-                + familyname + "::" + egn + "::" + dayOfBirth + "::" + monthOfBirth + "::"
-                + yearOfBirth + "::" + country + "::" + city + "::" + address + "::"
-                + phone + "::" + email + "::" + userType;
+        return username + DELIMITER + password + DELIMITER + name + DELIMITER + surname + DELIMITER
+                + familyname + DELIMITER + egn + DELIMITER + dayOfBirth + DELIMITER
+                + monthOfBirth + DELIMITER + yearOfBirth + DELIMITER + country + DELIMITER
+                + city + DELIMITER + address + DELIMITER + phone + DELIMITER + email + DELIMITER
+                + userType;
+    }
+
+    public String[] toStringArray() {
+        return (this.toString()).split(DELIMITER);
     }
 }

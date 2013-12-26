@@ -16,6 +16,7 @@ public class SSLServerThread extends Thread {
     private ObjectInputStream objInStream = null;
 
     private Object receivedObj = null;
+    private User user;
 
     SSLServerThread(SSLSocket sslSocket) {
         this.sslSocket = sslSocket;
@@ -31,7 +32,7 @@ public class SSLServerThread extends Thread {
 
             if (receivedObj instanceof User) {
 
-                User user = (User) receivedObj;
+                user = (User) receivedObj;
 
                 if (user.getRequest().equalsIgnoreCase("login")) {
 
@@ -63,7 +64,24 @@ public class SSLServerThread extends Thread {
                 objOutStream.writeObject(user);
             }
 
-        } catch (IOException | ClassNotFoundException | SQLException ex) {
+        } catch (SQLException ex) {
+
+            if (ex.getMessage().toLowerCase().contains(user.getUsername().toLowerCase())) {
+                user.setResponse("userExists");
+            } else if (ex.getMessage().toLowerCase().contains(user.getEgn().toLowerCase())) {
+                user.setResponse("egnExists");
+            } else {
+                Logger.getLogger(SSLServerThread.class.getName()).log(Level.SEVERE, null, ex);
+                return;
+            }
+
+            try {
+                objOutStream.writeObject(user);
+            } catch (IOException ex1) {
+                Logger.getLogger(SSLServerThread.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+
+        } catch (IOException | ClassNotFoundException ex) {
             Logger.getLogger(SSLServerThread.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
