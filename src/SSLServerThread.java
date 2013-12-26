@@ -4,6 +4,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.net.ssl.SSLSocket;
@@ -15,6 +16,8 @@ public class SSLServerThread extends Thread {
     private ObjectOutputStream objOutStream = null;
     private ObjectInputStream objInStream = null;
 
+    private Timestamp timestamp;
+
     private Object receivedObj = null;
     private User user;
 
@@ -25,6 +28,7 @@ public class SSLServerThread extends Thread {
     public void run() {
 
         try {
+            timestamp = new Timestamp(System.currentTimeMillis());
             objOutStream = new ObjectOutputStream(sslSocket.getOutputStream());
             objInStream = new ObjectInputStream(sslSocket.getInputStream());
 
@@ -35,8 +39,8 @@ public class SSLServerThread extends Thread {
                 user = (User) receivedObj;
 
                 if (user.getRequest().equalsIgnoreCase("login")) {
-                    
-                    System.out.println("User login request from " + sslSocket.getInetAddress());
+
+                    System.out.println(timestamp + ": User login request from " + sslSocket.getInetAddress());
 
                     if (UserMgmt.login(user.getUsername(), user.getPassword())) {
 
@@ -59,8 +63,8 @@ public class SSLServerThread extends Thread {
                     }
 
                 } else if (user.getRequest().equalsIgnoreCase("create")) {
-                    
-                    System.out.println("Create new user request from " + sslSocket.getInetAddress());
+
+                    System.out.println(timestamp + ": Create new user request from " + sslSocket.getInetAddress());
 
                     UserMgmt.createUser(user);
                 }
