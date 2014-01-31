@@ -59,8 +59,15 @@ public class UserMgmt {
     public static void deleteUser(String username) throws SQLException {
 
         DatabaseMgmt.execute("DELETE FROM users WHERE username =(?) LIMIT 1", username);
+    } 
+   
+    public static ResultSet searchUser(String egn)throws SQLException {
+    
+         ResultSet _resultSet = DatabaseMgmt.select("SELECT * FROM users"+" WHERE egn = (?)", egn);
+         
+         return _resultSet;
+       
     }
-
     /**
      * User logIn function
      *
@@ -98,7 +105,7 @@ public class UserMgmt {
 
         ResultSet _resultSet;
 
-        _resultSet = DatabaseMgmt.select("SELECT * FROM users "
+        _resultSet = DatabaseMgmt.select("SELECT * FROM users"
                 + "WHERE username =(?)", username);
 
         return _resultSet;
