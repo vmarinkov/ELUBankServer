@@ -4,6 +4,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  * MySQL Database management: connect and disconnect as well as executing
@@ -15,7 +16,7 @@ public class DatabaseMgmt {
 
     // JDBC driver name and database URL & credentials
     private static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-    private static final String DB_URL = "jdbc:mysql://localhost/proekt1";
+    private static final String DB_URL = "jdbc:mysql://localhost/proekt1?useUnicode=true&characterEncoding=utf-8";
     private static final String DB_USER = "proekt1";
     private static final String DB_PASS = "proekt1";
 
@@ -37,12 +38,25 @@ public class DatabaseMgmt {
 
         System.out.println("Connecting to database...");
 
-        //Start the connection
+        //Start the connectio
         _connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
-
+         
         System.out.println("Connected to database...");
     }
-
+   public static void search(String egn)throws SQLException, ClassNotFoundException{
+          
+         _connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+         Statement stmt = (Statement)_connection.createStatement();
+         
+         String SQL = "SELECT * FROM proekt1 WHERE egn ='"+ egn + "'";
+         _resultSet = stmt.executeQuery(SQL);
+         while (_resultSet.next()){
+             System.out.println("EGN"+_resultSet.getString("egn"));
+             System.out.println("Name"+_resultSet.getString("name"));
+         }
+             
+   }
+           
     /**
      * Disconnecting from MySQL DB
      *
