@@ -65,7 +65,7 @@ public class SSLServerThread extends Thread {
 
                 if (currency.getRequest().equalsIgnoreCase("getAllCurrencyInfo")) {
 
-                    currency = CurrencyMgmt.getAllCurrencyInfo(currency);
+                    currency = CurrencyMgmt.getAllCurrencyData(currency);
                 }
 
                 objOutStream.writeObject(currency);

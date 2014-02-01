@@ -27,10 +27,11 @@ public class CurrencyMgmt {
     /**
      *
      * @param currency - currency object
-     * @return Currency object - containing all currency data extracted from MySQL
+     * @return Currency object - containing all currency data extracted from
+     * MySQL
      * @throws SQLException
      */
-    public static Currency getAllCurrencyInfo(Currency currency) throws SQLException {
+    public static Currency getAllCurrencyData(Currency currency) throws SQLException {
 
         ResultSet _resultSet;
 
@@ -39,12 +40,11 @@ public class CurrencyMgmt {
         while (_resultSet.next()) {
             currency.createNewCurrenciesArray(_resultSet.getInt(1));
         }
-
-        System.out.println("Total of " + currency.allCurrencies.length + " currencies found");
-
+        
+        // EXCTRACT ALL CURRENCIES DATA OUT OF THE CURRENCIES TABLE
         _resultSet = DatabaseMgmt.select("SELECT * FROM currencies");
 
-        // EXCTRACT ALL CURRENCIES INFO OUT OF THE CURRENCIES TABLE
+        // EXCTRACT ALL CURRENCIES DATA OUT OF THE CURRENCIES TABLE
         for (Currency currentCurrency : currency.allCurrencies) {
             _resultSet.next();
             currentCurrency.setName(_resultSet.getString("name"));
@@ -138,8 +138,6 @@ public class CurrencyMgmt {
             //read this - http://stackoverflow.com/questions/13786607/normalization-in-dom-parsing-with-java-how-does-it-work
             doc.getDocumentElement().normalize();
 
-            System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
-
             NodeList nList = doc.getElementsByTagName("ROW");
 
             DatabaseMgmt.execute("DELETE FROM currencies");
@@ -147,8 +145,6 @@ public class CurrencyMgmt {
             for (int temp = 1; temp < nList.getLength(); temp++) {
 
                 Node nNode = nList.item(temp);
-
-                System.out.println("Current Element :" + nNode.getNodeName());
 
                 if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 

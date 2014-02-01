@@ -15,9 +15,8 @@ public class Currency implements Serializable {
 
         this.allCurrencies = new Currency[arraySize];
 
-        while (arraySize > 0) {
-            allCurrencies[arraySize - 1] = new Currency();
-            arraySize--;
+        for (int i = arraySize - 1; i >= 0; i--) {
+            allCurrencies[ i] = new Currency();
         }
     }
 
