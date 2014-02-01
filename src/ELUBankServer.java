@@ -1,6 +1,7 @@
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,7 +16,11 @@ public class ELUBankServer {
     public static void main(String[] args) {
 
         try {
+
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
             DatabaseMgmt.connect();
+            CurrencyMgmt.parseXML("2014.4.3");//timestamp.getYear() + "." + timestamp.getMonth() + "." + timestamp.getDate());
             System.out.println("Server started...");
             new SSLServer().startServer();
 

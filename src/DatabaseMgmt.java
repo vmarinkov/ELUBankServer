@@ -62,6 +62,22 @@ public class DatabaseMgmt {
     }
 
     /**
+     * Used to execute INSERT, UPDATE && DELETE into MySQL DB
+     *
+     * @param sql - The SQL statement
+     * @throws SQLException
+     */
+    public static void execute(String sql) throws SQLException {
+
+        System.out.println("Executing to Mysql...");
+        System.out.println(sql);
+
+        _preparedStmt = _connection.prepareStatement(sql);
+
+        _preparedStmt.executeUpdate();
+    }
+
+    /**
      * Used to execute INSERT, UPDATE && DELETE for a SINGLE column in MySQL DB
      *
      * @param sql - The SQL statement
@@ -132,7 +148,7 @@ public class DatabaseMgmt {
      * Used to execute SELECT in MySQL DB
      *
      * @param sql - The SQL statement
-
+     *
      * @return ResultSet - result, if any
      * @throws SQLException
      */
@@ -141,7 +157,7 @@ public class DatabaseMgmt {
         System.out.println("Selecting from Mysql...");
         System.out.println(sql);
 
-        _preparedStmt = _connection.prepareStatement(sql);    
+        _preparedStmt = _connection.prepareStatement(sql);
 
         _resultSet = _preparedStmt.executeQuery();
 
