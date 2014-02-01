@@ -19,12 +19,14 @@ public class SSLServerThread extends Thread {
     private Timestamp timestamp;
 
     private Object receivedObj = null;
-    private User user;
+    private User user = null;
+    private Currency currency = null;
 
     SSLServerThread(SSLSocket sslSocket) {
         this.sslSocket = sslSocket;
     }
 
+    @Override
     public void run() {
 
         try {
@@ -44,21 +46,7 @@ public class SSLServerThread extends Thread {
 
                     if (UserMgmt.login(user.getUsername(), user.getPassword())) {
 
-                        ResultSet _resResultSet = UserMgmt.getUser(user.getUsername());
-
-                        while (_resResultSet.next()) {
-                            user.setName(_resResultSet.getString("name"));
-                            user.setSurname(_resResultSet.getString("surname"));
-                            user.setFamilyname(_resResultSet.getString("familyname"));
-                            user.setEgn(_resResultSet.getString("egn"));
-                            user.setCountry(_resResultSet.getString("country"));
-                            user.setCity(_resResultSet.getString("city"));
-                            user.setAddress(_resResultSet.getString("address"));
-                            user.setPhone(_resResultSet.getString("phone"));
-                            user.setEmail(_resResultSet.getString("email"));
-                            user.setUserType(_resResultSet.getString("usertype"));
-                        }
-
+                        user = UserMgmt.getUser(user);
                         user.setLoggedIn(true);
                     }
 
@@ -70,6 +58,18 @@ public class SSLServerThread extends Thread {
                 }
 
                 objOutStream.writeObject(user);
+            }
+
+            if (receivedObj instanceof Currency) {
+
+                currency = (Currency) receivedObj;
+
+                if (currency.getRequest().equalsIgnoreCase("getAllCurrencyInfo")) {
+
+                    CurrencyMgmt.getCurrencies(currency);
+                }
+
+                objOutStream.writeObject(currency);
             }
 
         } catch (SQLException ex) {

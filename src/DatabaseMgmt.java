@@ -6,8 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * MySQL Database management: connect and disconnect,
- * as well as executing updates and queries
+ * MySQL Database management: connect and disconnect, as well as executing
+ * updates and queries
  *
  * @author ELUBank team
  */
@@ -39,10 +39,10 @@ public class DatabaseMgmt {
 
         //Start the connectio
         _connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
-         
+
         System.out.println("Connected to database...");
     }
-           
+
     /**
      * Disconnecting from MySQL DB
      *
@@ -126,6 +126,26 @@ public class DatabaseMgmt {
         }
 
         _preparedStmt.executeUpdate();
+    }
+
+    /**
+     * Used to execute SELECT in MySQL DB
+     *
+     * @param sql - The SQL statement
+
+     * @return ResultSet - result, if any
+     * @throws SQLException
+     */
+    public static ResultSet select(String sql) throws SQLException {
+
+        System.out.println("Selecting from Mysql...");
+        System.out.println(sql);
+
+        _preparedStmt = _connection.prepareStatement(sql);    
+
+        _resultSet = _preparedStmt.executeQuery();
+
+        return _resultSet;
     }
 
     /**
