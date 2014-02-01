@@ -22,15 +22,9 @@ public class ELUBankServer {
             // dateAndTime[0] - date, dateAndTime[1] - time
             String dateAndTime[] = timeStamp.split(" ");
             // date[0] - year, date[1] - month, date[2] - day
-            String year, month, day, date[] = dateAndTime[0].split(".");
-            year = date[0];
-            month = date[1];
-            day = date[2];
+            String date[] = dateAndTime[0].split(".");
             // time[0] - hour, time[1] - minutes, time[2] - seconds 
-            String hours, minutes, seconds, time[] = dateAndTime[1].split(":");
-            hours = time[0];
-            minutes = time[1];
-            seconds = time[2];
+            String time[] = dateAndTime[1].split(":");
 
             DatabaseMgmt.connect();
             CurrencyMgmt.parseXML(dateAndTime[0]);

@@ -26,10 +26,11 @@ public class CurrencyMgmt {
 
     /**
      *
-     * @param currency
+     * @param currency - currency object
+     * @return Currency object - containing all currency data extracted from MySQL
      * @throws SQLException
      */
-    public static void getCurrencies(Currency currency) throws SQLException {
+    public static Currency getAllCurrencyInfo(Currency currency) throws SQLException {
 
         ResultSet _resultSet;
 
@@ -54,15 +55,17 @@ public class CurrencyMgmt {
             currentCurrency.setDate(_resultSet.getString("date"));
         }
 
-        for (int i = 0; i < currency.allCurrencies.length; i++) {
-            System.out.println(currency.allCurrencies[i].getName());
-        }
+        return currency;
+//        for (int i = 0; i < currency.allCurrencies.length; i++) {
+//            System.out.println(currency.allCurrencies[i].getName());
+//        }
     }
 
     /**
-     * This function downloads the XML file from bnb.bg to a local copy.
+     * This function downloads the currency XML file from bnb.bg to a local
+     * copy.
      *
-     * @param filename
+     * @param filename - the name of the file that we be created
      * @throws MalformedURLException
      * @throws IOException
      */
@@ -100,7 +103,7 @@ public class CurrencyMgmt {
      * @param eElement
      * @param tagName
      * @param defVal
-     * @return values needed
+     * @return only the data needed
      */
     public static String checkElement(Element eElement, String tagName, String defVal) {
 
@@ -115,7 +118,7 @@ public class CurrencyMgmt {
      * Downloads the bnb.xml file and then parses it and inserts the data into
      * currencies table in MySQL
      *
-     * @param date - the date that the update occurs
+     * @param date - current date
      * @see downloadBnbXml method
      */
     public static void parseXML(String date) {
@@ -138,8 +141,6 @@ public class CurrencyMgmt {
             System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
 
             NodeList nList = doc.getElementsByTagName("ROW");
-
-            System.out.println("----------------------------");
 
             DatabaseMgmt.execute("DELETE FROM currencies");
 
