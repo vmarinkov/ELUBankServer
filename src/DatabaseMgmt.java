@@ -4,11 +4,10 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 /**
- * MySQL Database management: connect and disconnect as well as executing
- * updates and queries
+ * MySQL Database management: connect and disconnect,
+ * as well as executing updates and queries
  *
  * @author ELUBank team
  */
@@ -43,19 +42,6 @@ public class DatabaseMgmt {
          
         System.out.println("Connected to database...");
     }
-   public static void search(String egn)throws SQLException, ClassNotFoundException{
-          
-         _connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
-         Statement stmt = (Statement)_connection.createStatement();
-         
-         String SQL = "SELECT * FROM proekt1 WHERE egn ='"+ egn + "'";
-         _resultSet = stmt.executeQuery(SQL);
-         while (_resultSet.next()){
-             System.out.println("EGN"+_resultSet.getString("egn"));
-             System.out.println("Name"+_resultSet.getString("name"));
-         }
-             
-   }
            
     /**
      * Disconnecting from MySQL DB
