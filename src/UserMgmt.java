@@ -59,15 +59,14 @@ public class UserMgmt {
     public static void deleteUser(String username) throws SQLException {
 
         DatabaseMgmt.execute("DELETE FROM users WHERE username =(?) LIMIT 1", username);
-    } 
-   
-    public static ResultSet searchUser(String egn)throws SQLException {
-    
-         ResultSet _resultSet = DatabaseMgmt.select("SELECT * FROM users"+" WHERE egn = (?)", egn);
-         
-         return _resultSet;
-       
     }
+
+//    public static ResultSet searchUser(String egn)throws SQLException {
+//    
+//         ResultSet _resultSet = DatabaseMgmt.select("SELECT * FROM users"+" WHERE egn = (?)", egn);
+//         
+//         return _resultSet;       
+//    }
     /**
      * User logIn function
      *
@@ -97,18 +96,31 @@ public class UserMgmt {
     /**
      * Retrieves all user information using EGN as super-key to SELECT the user
      *
-     * @param username - Existing username from "users" in MySQl
-     * @return ResultSet - all user personal information
+     * @param user - containing valid username of a user from "users" table in MySQl
+     * @return User - object filled with all user personal information
      * @throws SQLException
      */
-    public static ResultSet getUser(String username) throws SQLException {
+    public static User getUser(User user) throws SQLException {
 
         ResultSet _resultSet;
 
-        _resultSet = DatabaseMgmt.select("SELECT * FROM users"
-                + "WHERE username =(?)", username);
+        _resultSet = DatabaseMgmt.select("SELECT * FROM users "
+                + "WHERE username =(?)", user.getUsername());
 
-        return _resultSet;
+        while (_resultSet.next()) {
+            user.setName(_resultSet.getString("name"));
+            user.setSurname(_resultSet.getString("surname"));
+            user.setFamilyname(_resultSet.getString("familyname"));
+            user.setEgn(_resultSet.getString("egn"));
+            user.setCountry(_resultSet.getString("country"));
+            user.setCity(_resultSet.getString("city"));
+            user.setAddress(_resultSet.getString("address"));
+            user.setPhone(_resultSet.getString("phone"));
+            user.setEmail(_resultSet.getString("email"));
+            user.setUserType(_resultSet.getString("usertype"));
+        }
+
+        return user;
     }
 
     // encrypt the user's password

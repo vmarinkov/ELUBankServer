@@ -1,6 +1,8 @@
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,7 +17,17 @@ public class ELUBankServer {
     public static void main(String[] args) {
 
         try {
+            //Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            String timeStamp = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss").format(Calendar.getInstance().getTime());
+            // dateAndTime[0] - date, dateAndTime[1] - time
+            String dateAndTime[] = timeStamp.split(" ");
+            // date[0] - year, date[1] - month, date[2] - day
+            String date[] = dateAndTime[0].split(".");
+            // time[0] - hour, time[1] - minutes, time[2] - seconds 
+            String time[] = dateAndTime[1].split(":");
+
             DatabaseMgmt.connect();
+            CurrencyMgmt.parseXML(dateAndTime[0]);
             System.out.println("Server started...");
             new SSLServer().startServer();
 

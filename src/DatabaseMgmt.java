@@ -4,10 +4,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 /**
- * MySQL Database management: connect and disconnect as well as executing
+ * MySQL Database management: connect and disconnect, as well as executing
  * updates and queries
  *
  * @author ELUBank team
@@ -40,23 +39,10 @@ public class DatabaseMgmt {
 
         //Start the connectio
         _connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
-         
+
         System.out.println("Connected to database...");
     }
-   public static void search(String egn)throws SQLException, ClassNotFoundException{
-          
-         _connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
-         Statement stmt = (Statement)_connection.createStatement();
-         
-         String SQL = "SELECT * FROM proekt1 WHERE egn ='"+ egn + "'";
-         _resultSet = stmt.executeQuery(SQL);
-         while (_resultSet.next()){
-             System.out.println("EGN"+_resultSet.getString("egn"));
-             System.out.println("Name"+_resultSet.getString("name"));
-         }
-             
-   }
-           
+
     /**
      * Disconnecting from MySQL DB
      *
@@ -73,6 +59,22 @@ public class DatabaseMgmt {
         if (_connection != null) {
             _connection.close();
         }
+    }
+
+    /**
+     * Used to execute INSERT, UPDATE && DELETE into MySQL DB
+     *
+     * @param sql - The SQL statement
+     * @throws SQLException
+     */
+    public static void execute(String sql) throws SQLException {
+
+        System.out.println("Executing to Mysql...");
+        System.out.println(sql);
+
+        _preparedStmt = _connection.prepareStatement(sql);
+
+        _preparedStmt.executeUpdate();
     }
 
     /**
@@ -140,6 +142,26 @@ public class DatabaseMgmt {
         }
 
         _preparedStmt.executeUpdate();
+    }
+
+    /**
+     * Used to execute SELECT in MySQL DB
+     *
+     * @param sql - The SQL statement
+     *
+     * @return ResultSet - result, if any
+     * @throws SQLException
+     */
+    public static ResultSet select(String sql) throws SQLException {
+
+        System.out.println("Selecting from Mysql...");
+        System.out.println(sql);
+
+        _preparedStmt = _connection.prepareStatement(sql);
+
+        _resultSet = _preparedStmt.executeQuery();
+
+        return _resultSet;
     }
 
     /**
