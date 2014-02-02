@@ -6,16 +6,20 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * User management operations
+ * Class that uses both the database management class as well as the user class
+ * to manage user accounts
+ * 
+ * @see DatabaseMgmt.java
+ * @see User.java
  *
- * @author ELUBank team
+ * @author Miglen Evlogiev & Vasil Marinkov
  */
 public class UserMgmt {
 
     /**
-     * Crates a new INACTIVE user (INSERT into MySQL)
+     * Crates a new user account (INSERT into MySQL)
      *
-     * @param user - containing all new user data
+     * @param user - object containing all new user data
      * @throws SQLException
      */
     public static void createUser(User user) throws SQLException {
@@ -61,18 +65,12 @@ public class UserMgmt {
         DatabaseMgmt.execute("DELETE FROM users WHERE username =(?) LIMIT 1", username);
     }
 
-//    public static ResultSet searchUser(String egn)throws SQLException {
-//    
-//         ResultSet _resultSet = DatabaseMgmt.select("SELECT * FROM users"+" WHERE egn = (?)", egn);
-//         
-//         return _resultSet;       
-//    }
     /**
      * User logIn function
      *
      * @param username - Existing username from "users" in MySQl
      * @param password - Existing password from "users" in MySQl
-     * @return boolean
+     * @return boolean - "true" on successful login, else "false"
      * @throws SQLException
      */
     public static boolean login(String username, String password) throws SQLException {
@@ -94,20 +92,23 @@ public class UserMgmt {
     }
 
     /**
-     * Retrieves all user information using EGN as super-key to SELECT the user
+     * Retrieves all user information using its Username as key to SELECT it
      *
-     * @param user - containing valid username of a user from "users" table in MySQl
+     * @param user - containing valid username of a user from "users" table in
+     * MySQl
      * @return User - object filled with all user personal information
      * @throws SQLException
+     * @see user.response: if no data found - "userNotFound" is returned as a
+     * response
      */
-    public static User getUser(User user) throws SQLException {
+    public static User getUserByUsername(User user) throws SQLException {
 
         ResultSet _resultSet;
 
         _resultSet = DatabaseMgmt.select("SELECT * FROM users "
                 + "WHERE username =(?)", user.getUsername());
 
-        while (_resultSet.next()) {
+        if (_resultSet.next()) {
             user.setName(_resultSet.getString("name"));
             user.setSurname(_resultSet.getString("surname"));
             user.setFamilyname(_resultSet.getString("familyname"));
@@ -118,12 +119,55 @@ public class UserMgmt {
             user.setPhone(_resultSet.getString("phone"));
             user.setEmail(_resultSet.getString("email"));
             user.setUserType(_resultSet.getString("usertype"));
+        } else {
+            user.setResponse("userNotFound");
         }
 
         return user;
     }
 
-    // encrypt the user's password
+    /**
+     * Retrieves all user information using its EGN as key to SELECT it
+     *
+     * @param user - containing valid username of a user from "users" table in
+     * MySQl
+     * @return User - object filled with all user personal information
+     * @throws SQLException
+     * @see user.response: if no data found - "userNotFound" is returned as a
+     * response
+     */
+    public static User getUserByEGN(User user) throws SQLException {
+
+        ResultSet _resultSet;
+
+        _resultSet = DatabaseMgmt.select("SELECT * FROM users "
+                + "WHERE egn =(?)", user.getEgn());
+
+        if (_resultSet.next()) {
+            user.setName(_resultSet.getString("name"));
+            user.setSurname(_resultSet.getString("surname"));
+            user.setFamilyname(_resultSet.getString("familyname"));
+            user.setEgn(_resultSet.getString("egn"));
+            user.setCountry(_resultSet.getString("country"));
+            user.setCity(_resultSet.getString("city"));
+            user.setAddress(_resultSet.getString("address"));
+            user.setPhone(_resultSet.getString("phone"));
+            user.setEmail(_resultSet.getString("email"));
+            user.setUserType(_resultSet.getString("usertype"));
+        } else {
+            user.setResponse("userNotFound");
+        }
+
+        return user;
+    }
+
+    /**
+     * Creates a double hash sum of the user's password + salt
+     * 
+     * @param password: the password that is going to be hashed
+     * @return encrypted user password
+     * @see md5 method
+     */
     private static String hashpass(String password) {
 
         String SALT_BEGIN = "n@,k4gj@.@";
@@ -132,7 +176,12 @@ public class UserMgmt {
         return md5(md5(SALT_BEGIN + password + SALT_END));
     }
 
-    // create md5 sum (used to encrypt the user's password)
+    /**
+     * Used in hashpass method
+     * 
+     * @param input: user password + salts
+     * @return md5 hash sum
+     */
     private static String md5(String input) {
 
         String md5 = null;

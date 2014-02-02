@@ -6,6 +6,11 @@ import javax.net.ssl.SSLServerSocket;
 import javax.net.ssl.SSLServerSocketFactory;
 import javax.net.ssl.SSLSocket;
 
+/**
+ * Server class used to implement SSL over a socket and start the server thread
+ *
+ * @author Vasil Marinkov
+ */
 public class SSLServer {
 
     private static final int PORT = 23579;

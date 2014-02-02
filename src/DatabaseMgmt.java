@@ -9,7 +9,7 @@ import java.sql.SQLException;
  * MySQL Database management: connect and disconnect, as well as executing
  * updates and queries
  *
- * @author ELUBank team
+ * @author Vasil Marinkov & Miglen Evlogiev
  */
 public class DatabaseMgmt {
 

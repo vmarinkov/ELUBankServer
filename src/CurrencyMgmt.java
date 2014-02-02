@@ -19,8 +19,12 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 /**
+ * Class that uses both the database management class as well as the currency
+ * class to manage currency rates, codes etc.
  *
- * @author lmn7
+ * Also parses currency info form bnb.bg and then uploads it to the MySQL db
+ *
+ * @author Miglen Evlogiev & Vasil Marinkov
  */
 public class CurrencyMgmt {
 
@@ -38,9 +42,9 @@ public class CurrencyMgmt {
         _resultSet = DatabaseMgmt.select("SELECT count(*) FROM currencies");
 
         while (_resultSet.next()) {
-            currency.createNewCurrenciesArray(_resultSet.getInt(1));
+            currency.getAllCurrencyData(_resultSet.getInt(1));
         }
-        
+
         // EXCTRACT ALL CURRENCIES DATA OUT OF THE CURRENCIES TABLE
         _resultSet = DatabaseMgmt.select("SELECT * FROM currencies");
 
@@ -56,9 +60,6 @@ public class CurrencyMgmt {
         }
 
         return currency;
-//        for (int i = 0; i < currency.allCurrencies.length; i++) {
-//            System.out.println(currency.allCurrencies[i].getName());
-//        }
     }
 
     /**

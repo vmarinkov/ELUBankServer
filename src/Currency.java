@@ -1,6 +1,13 @@
 
 import java.io.Serializable;
 
+/**
+ * Class used for parsing currency information from the database table
+ * "currencies" and serialize it to an object, that is being transferred between
+ * the server and the client
+ *
+ * @author Vasil Marinkov
+ */
 public class Currency implements Serializable {
 
     public Currency[] allCurrencies = null;
@@ -9,9 +16,20 @@ public class Currency implements Serializable {
 
     private String name, rate, code, ratio, reverserate, date;
 
+    /**
+     * @param request - client's request (ex: getAllCurrencyData)
+     * @param response - server response (used only for exceptional cases, if
+     * MySQL query fails for any reason)
+     */
     private String request = null, response = null;
 
-    public void createNewCurrenciesArray(int arraySize) {
+    /**
+     * Creates an array that can be filled with all currency related data from
+     * the database
+     *
+     * @param arraySize - the number of rolls in "currencies" table, in MySQL
+     */
+    public void getAllCurrencyData(int arraySize) {
 
         this.allCurrencies = new Currency[arraySize];
 

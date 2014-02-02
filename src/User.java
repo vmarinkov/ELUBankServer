@@ -1,7 +1,20 @@
 
 import java.io.Serializable;
 
+/**
+ * Class used for parsing user information from the database table "users", as
+ * well as any data related to the specified user - accounts, transactions. This
+ * data is being serialized an object, that is being transferred between the
+ * server and the client
+ *
+ * @author Vasil Marinkov
+ */
 public class User implements Serializable {
+
+    public User[] allUsers = null;
+    // TODO - extend user class to create data for its own accounts/transactions
+    public Accounts[] currnetUserAccounts = null;
+    public Transactions[] currentUserTransactions = null;
 
     private static final long serialVersionUID = 1L;
     private static final String DELIMITER = "::";
@@ -10,6 +23,11 @@ public class User implements Serializable {
             egn, dayOfBirth, monthOfBirth, yearOfBirth, country,
             city, address, phone, email, userType;
 
+    /**
+     * @param request - client's request (ex: login, create)
+     * @param response - server response (used only for exceptional cases, if
+     * MySQL query fails for any reason)
+     */
     private String request = null, response = null;
     private boolean loggedIn = false;
 
@@ -36,6 +54,21 @@ public class User implements Serializable {
         this.phone = phone;
         this.email = email;
         this.userType = userType;
+    }
+
+    /**
+     * Creates an array that can be filled with all user related data from the
+     * database
+     *
+     * @param arraySize - the number of rolls in "users" table, in MySQL
+     */
+    public void getAllUserData(int arraySize) {
+
+        this.allUsers = new User[arraySize];
+
+        for (int i = arraySize - 1; i >= 0; i--) {
+            allUsers[ i] = new User();
+        }
     }
 
     public String getUsername() {

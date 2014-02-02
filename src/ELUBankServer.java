@@ -7,10 +7,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Containing the main class This is where both the Server and Administrator's
- * GUI will be started
+ * Containing the main class that starts server application and its GUI
  *
- * @author ELUBank team
+ * @author Vasil Marinkov & Miglen Evlogiev
  */
 public class ELUBankServer {
 
@@ -28,7 +27,7 @@ public class ELUBankServer {
 
             DatabaseMgmt.connect();
             CurrencyMgmt.parseXML(dateAndTime[0]);
-            System.out.println("Server started...");
+            System.out.println("Starting server...");
             new SSLServer().startServer();
 
 //            User user = new User("test22", "test2", "Petar", "Pertrov", "Georgiev",
