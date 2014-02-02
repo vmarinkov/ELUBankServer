@@ -1,10 +1,11 @@
-
 ELUBank
 =======
 	Преди да можете да компилирате проекта трябва да си запишете JDBC driver:
 	Download - http://dev.mysql.com/downloads/connector/j/
 	Слад като го свалите и инсталирате, трябва да го добавите в проеката:
 	Projects->Libraries->Add Library... и там търсите MySQL JDBC Driver
+	
+	или просто да си го свалите през netbeans->team->git->clone
 
 	След това е хубаво да си запишете XAMPP и да си импортнете .sql DB файла качен в проекта.
 	(За да не се налага да си правите цялата база наново)
