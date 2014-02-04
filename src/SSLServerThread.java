@@ -37,20 +37,23 @@ public class SSLServerThread extends Thread {
     /**
      * The methods is used handle user's request by receiving an object (user,
      * accounts, transactions or currency) containing a request.
-     * 
+     *
      * @see User.java, Accounts.java, Transactions.java, Currency.java
-     * @see UserMgmt.java, AccountsMgmt.java, TransactionsMgmt.java, CurrencyMgmt.java
+     * @see UserMgmt.java, AccountsMgmt.java, TransactionsMgmt.java,
+     * CurrencyMgmt.java
      */
     @Override
     public void run() {
 
         try {
             timestamp = new Timestamp(System.currentTimeMillis());
+
             objOutStream = new ObjectOutputStream(sslSocket.getOutputStream());
             objInStream = new ObjectInputStream(sslSocket.getInputStream());
 
             receivedObj = objInStream.readObject();
 
+            // handle "users" specific client's requests
             if (receivedObj instanceof User) {
 
                 user = (User) receivedObj;
@@ -77,6 +80,8 @@ public class SSLServerThread extends Thread {
                 }
 
                 objOutStream.writeObject(user);
+
+                // handle "accounts" specific client's requests
             } else if (receivedObj instanceof Accounts) {
 
                 accounts = (Accounts) receivedObj;
@@ -88,6 +93,15 @@ public class SSLServerThread extends Thread {
                 }
 
                 objOutStream.writeObject(accounts);
+
+                // handle "transactions" specific client's requests
+            } else if (receivedObj instanceof Transactions) {
+
+                transactions = (Transactions) receivedObj;
+                // TODO handle requests.
+                objOutStream.writeObject(transactions);
+
+                // handle "currencies" specific client's requests
             } else if (receivedObj instanceof Currency) {
 
                 currency = (Currency) receivedObj;
@@ -102,19 +116,39 @@ public class SSLServerThread extends Thread {
 
         } catch (SQLException ex) {
 
-            if (ex.getMessage().toLowerCase().contains(user.getUsername().toLowerCase())) {
-                user.setResponse("userExists");
-            } else if (ex.getMessage().toLowerCase().contains(user.getEgn().toLowerCase())) {
-                user.setResponse("egnExists");
-            } else {
-                Logger.getLogger(SSLServerThread.class.getName()).log(Level.SEVERE, null, ex);
-                return;
-            }
+            // handle "users" table MySQL exceptions
+            if (receivedObj instanceof User) {
 
-            try {
-                objOutStream.writeObject(user);
-            } catch (IOException ex1) {
-                Logger.getLogger(SSLServerThread.class.getName()).log(Level.SEVERE, null, ex1);
+                if (ex.getMessage().toLowerCase().contains(user.getUsername().toLowerCase())) {
+                    user.setResponse("userExists");
+                } else if (ex.getMessage().toLowerCase().contains(user.getEgn().toLowerCase())) {
+                    user.setResponse("egnExists");
+                } else {
+                    Logger.getLogger(SSLServerThread.class.getName()).log(Level.SEVERE, null, ex);
+                    return;
+                }
+
+                try {
+                    objOutStream.writeObject(user);
+                } catch (IOException ex1) {
+                    Logger.getLogger(SSLServerThread.class.getName()).log(Level.SEVERE, null, ex1);
+                }
+
+                // handle "accounts" table MySQL exceptions
+            } else if (receivedObj instanceof Accounts) {
+
+                if (ex.getMessage().toLowerCase().contains(accounts.getIBAN().toLowerCase())) {
+                    accounts.setResponse("ibanExists");
+                } else {
+                    Logger.getLogger(SSLServerThread.class.getName()).log(Level.SEVERE, null, ex);
+                    return;
+                }
+
+                try {
+                    objOutStream.writeObject(accounts);
+                } catch (IOException ex1) {
+                    Logger.getLogger(SSLServerThread.class.getName()).log(Level.SEVERE, null, ex1);
+                }
             }
         } catch (IOException | ClassNotFoundException ex) {
             Logger.getLogger(SSLServerThread.class.getName()).log(Level.SEVERE, null, ex);
