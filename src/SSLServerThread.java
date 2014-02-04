@@ -10,7 +10,7 @@ import javax.net.ssl.SSLSocket;
 
 /**
  * Communicates with the client application trough objects, using the object
- * stream Handles requests and, if necessary, returns response messages (when
+ * stream. Handles requests and, if necessary, returns response messages (when
  * exceptional event occurs )
  *
  * @author Vasil Marinkov
@@ -35,8 +35,8 @@ public class SSLServerThread extends Thread {
     }
 
     /**
-     * The methods is used handle user's request by receiving an object (user,
-     * accounts, transactions or currency) containing a request.
+     * The following method is used to handle clients request by receiving an
+     * object (user, accounts, transactions or currency) containing the request.
      *
      * @see User.java, Accounts.java, Transactions.java, Currency.java
      * @see UserMgmt.java, AccountsMgmt.java, TransactionsMgmt.java,
