@@ -36,7 +36,39 @@ public class UserMgmt {
                 + "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 columnNames, newUser);
     }
-
+    
+    /**
+     * Updates user account (UPDATE into MySQL)
+     *
+     * @param user - object containing all new user data
+     * @throws SQLException
+     */
+    public static void updateUser(User user) throws SQLException {
+        String[] allowedColumns = {"country","city","address","phone","email"};
+        
+        StringBuilder query = new StringBuilder();
+        query.append("UPDATE users SET ");
+        for (String colName: allowedColumns) {
+            query.append(colName);
+            query.append(" = ?,");
+        }
+        query.deleteCharAt(query.length() - 1);
+        query.append(" WHERE egn = ?");
+        
+        // System.out.println(query.toString());
+        
+        String[] values = {
+            user.getCountry(),
+            user.getCity(),
+            user.getAddress(),
+            user.getPhone(),
+            user.getEmail(),
+            user.getEgn()
+        };
+        
+        DatabaseMgmt.execute(query.toString(), allowedColumns, values);
+    }
+    
 //    /**
 //     * Activates an existing user (UPDATE to MySQL)
 //     *

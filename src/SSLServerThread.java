@@ -77,6 +77,10 @@ public class SSLServerThread extends Thread {
 
                     System.out.println(timestamp + ": Search for user by ENG request from " + sslSocket.getInetAddress());
                     user = UserMgmt.getUserByEGN(user);
+                } else if (user.getRequest().equalsIgnoreCase("update")) {
+                    System.out.println(timestamp + ": Update user info request from " + sslSocket.getInetAddress());
+                    UserMgmt.updateUser(user);
+                    user = UserMgmt.getUserByEGN(user);
                 }
 
                 objOutStream.writeObject(user);
