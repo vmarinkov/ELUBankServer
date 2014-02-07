@@ -71,6 +71,21 @@ public class User implements Serializable {
         }
     }
 
+    /**
+     * Creates an array that can be filled with all account related data from
+     * the database
+     *
+     * @param arraySize - the number of rolls in "accounts" table, in MySQL
+     */
+    public void getAllUserAccountData(int arraySize) {
+
+        this.currnetUserAccounts = new Accounts[arraySize];
+
+        for (int i = arraySize - 1; i >= 0; i--) {
+            currnetUserAccounts[ i] = new Accounts();
+        }
+    }
+
     public String getUsername() {
         return username;
     }

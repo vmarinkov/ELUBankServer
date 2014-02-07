@@ -1,4 +1,5 @@
 
+import com.sun.org.apache.bcel.internal.generic.AALOAD;
 import java.sql.*;
 import java.math.BigInteger;
 import java.security.*;
@@ -8,7 +9,7 @@ import java.util.logging.Logger;
 /**
  * Class that uses both the database management class as well as the user class
  * to manage user accounts
- * 
+ *
  * @see DatabaseMgmt.java
  * @see User.java
  *
@@ -36,7 +37,7 @@ public class UserMgmt {
                 + "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 columnNames, newUser);
     }
-    
+
     /**
      * Updates user account (UPDATE into MySQL)
      *
@@ -44,19 +45,18 @@ public class UserMgmt {
      * @throws SQLException
      */
     public static void updateUser(User user) throws SQLException {
-        String[] allowedColumns = {"country","city","address","phone","email"};
-        
+        String[] allowedColumns = {"country", "city", "address", "phone", "email"};
+
         StringBuilder query = new StringBuilder();
         query.append("UPDATE users SET ");
-        for (String colName: allowedColumns) {
+        for (String colName : allowedColumns) {
             query.append(colName);
             query.append(" = ?,");
         }
         query.deleteCharAt(query.length() - 1);
         query.append(" WHERE egn = ?");
-        
+
         // System.out.println(query.toString());
-        
         String[] values = {
             user.getCountry(),
             user.getCity(),
@@ -65,10 +65,10 @@ public class UserMgmt {
             user.getEmail(),
             user.getEgn()
         };
-        
+
         DatabaseMgmt.execute(query.toString(), values);
     }
-    
+
     /**
      * Updates user password (UPDATE into MySQL)
      *
@@ -81,10 +81,10 @@ public class UserMgmt {
             hashpass(user.getPassword()),
             user.getUsername()
         };
-        
+
         DatabaseMgmt.execute("UPDATE users SET password = ? WHERE username = ?", values);
     }
-    
+
 //    /**
 //     * Activates an existing user (UPDATE to MySQL)
 //     *
@@ -172,6 +172,25 @@ public class UserMgmt {
             user.setResponse("userNotFound");
         }
 
+        _resultSet = DatabaseMgmt.select("SELECT count(*) FROM accounts WHERE useregn = ?", user.getEgn());
+
+        if (_resultSet.next()) {
+            user.getAllUserAccountData(_resultSet.getInt(1));
+        }
+
+        // EXCTRACT ALL CURRENCIES DATA OUT OF THE CURRENCIES TABLE
+        _resultSet = DatabaseMgmt.select("SELECT * FROM accounts WHERE useregn = ?", user.getEgn());
+
+        // EXCTRACT ALL CURRENCIES DATA OUT OF THE CURRENCIES TABLE
+        for (Accounts currentAccout : user.currnetUserAccounts) {
+            _resultSet.next();
+            currentAccout.setAccountType(_resultSet.getString("accounttype"));
+            currentAccout.setAmount(_resultSet.getString("amount"));
+            currentAccout.setCurrency(_resultSet.getString("currency"));
+            currentAccout.setIBAN(_resultSet.getString("iban"));
+            currentAccout.setUserEGN(_resultSet.getString("useregn"));
+        }
+
         return user;
     }
 
@@ -208,12 +227,31 @@ public class UserMgmt {
             user.setResponse("userNotFound");
         }
 
+        _resultSet = DatabaseMgmt.select("SELECT count(*) FROM accounts WHERE useregn = ?", user.getEgn());
+
+        if (_resultSet.next()) {
+            user.getAllUserAccountData(_resultSet.getInt(1));
+        }
+
+        // EXCTRACT ALL CURRENCIES DATA OUT OF THE CURRENCIES TABLE
+        _resultSet = DatabaseMgmt.select("SELECT * FROM accounts WHERE useregn = ?", user.getEgn());
+
+        // EXCTRACT ALL CURRENCIES DATA OUT OF THE CURRENCIES TABLE
+        for (Accounts currentAccout : user.currnetUserAccounts) {
+            _resultSet.next();
+            currentAccout.setAccountType(_resultSet.getString("accounttype"));
+            currentAccout.setAmount(_resultSet.getString("amount"));
+            currentAccout.setCurrency(_resultSet.getString("currency"));
+            currentAccout.setIBAN(_resultSet.getString("iban"));
+            currentAccout.setUserEGN(_resultSet.getString("useregn"));
+        }
+
         return user;
     }
 
     /**
      * Creates a double hash sum of the user's password + salt
-     * 
+     *
      * @param password: the password that is going to be hashed
      * @return encrypted user password
      * @see md5 method
@@ -228,7 +266,7 @@ public class UserMgmt {
 
     /**
      * Used in hashpass method
-     * 
+     *
      * @param input: user password + salts
      * @return md5 hash sum
      */
