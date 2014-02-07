@@ -1,5 +1,4 @@
 
-import com.sun.org.apache.bcel.internal.generic.AALOAD;
 import java.sql.*;
 import java.math.BigInteger;
 import java.security.*;
@@ -85,22 +84,6 @@ public class UserMgmt {
         DatabaseMgmt.execute("UPDATE users SET password = ? WHERE username = ?", values);
     }
 
-//    /**
-//     * Activates an existing user (UPDATE to MySQL)
-//     *
-//     * @param egn - Using EGN as a super key to specify which user should be
-//     * activated
-//     * @throws SQLException
-//     */
-//    public static void activateUser(String egn) throws SQLException {
-//
-//        String[] update = new String[2];
-//        update[0] = "1";
-//        update[1] = egn;
-//
-//        DatabaseMgmt.execute("UPDATE users SET isactive =(?)"
-//                + " WHERE egn =(?) LIMIT 1", update);
-//    }
     /**
      * Deletes an existing user (DELETE from MySQL)
      *
@@ -110,7 +93,7 @@ public class UserMgmt {
      */
     public static void deleteUser(String username) throws SQLException {
 
-        DatabaseMgmt.execute("DELETE FROM users WHERE username =(?) LIMIT 1", username);
+        DatabaseMgmt.execute("DELETE FROM users WHERE username = ? LIMIT 1", username);
     }
 
     /**
@@ -172,23 +155,10 @@ public class UserMgmt {
             user.setResponse("userNotFound");
         }
 
-        _resultSet = DatabaseMgmt.select("SELECT count(*) FROM accounts WHERE useregn = ?", user.getEgn());
-
-        if (_resultSet.next()) {
-            user.getAllUserAccountData(_resultSet.getInt(1));
-        }
-
-        // EXCTRACT ALL CURRENCIES DATA OUT OF THE CURRENCIES TABLE
-        _resultSet = DatabaseMgmt.select("SELECT * FROM accounts WHERE useregn = ?", user.getEgn());
-
-        // EXCTRACT ALL CURRENCIES DATA OUT OF THE CURRENCIES TABLE
-        for (Accounts currentAccout : user.currnetUserAccounts) {
-            _resultSet.next();
-            currentAccout.setAccountType(_resultSet.getString("accounttype"));
-            currentAccout.setAmount(_resultSet.getString("amount"));
-            currentAccout.setCurrency(_resultSet.getString("currency"));
-            currentAccout.setIBAN(_resultSet.getString("iban"));
-            currentAccout.setUserEGN(_resultSet.getString("useregn"));
+        if (user.getUserType().equalsIgnoreCase("2")
+                || user.getUserType().equalsIgnoreCase("3")) {
+            user = getUserAccounts(user);
+            user = getUserTransactions(user);
         }
 
         return user;
@@ -197,8 +167,7 @@ public class UserMgmt {
     /**
      * Retrieves all user information using its EGN as key to SELECT it
      *
-     * @param user - containing valid username of a user from "users" table in
-     * MySQl
+     * @param user - containing valid EGN of a user from "users" table in MySQl
      * @return User - object filled with all user personal information
      * @throws SQLException
      * @see user.response: if no data found - "userNotFound" is returned as a
@@ -227,15 +196,33 @@ public class UserMgmt {
             user.setResponse("userNotFound");
         }
 
-        _resultSet = DatabaseMgmt.select("SELECT count(*) FROM accounts WHERE useregn = ?", user.getEgn());
+        if (user.getUserType().equalsIgnoreCase("2")
+                || user.getUserType().equalsIgnoreCase("3")) {
+            user = getUserAccounts(user);
+            user = getUserTransactions(user);
+        }
 
+        return user;
+    }
+
+    /**
+     * Retrieves user's accounts information using its EGN as key to SELECT it
+     *
+     * @param user - containing valid EGN of a user from "users" table in MySQl
+     * @return a new user.currnetUserAccounts [] array properly filled with
+     * information
+     * @throws SQLException
+     */
+    public static User getUserAccounts(User user) throws SQLException {
+
+        ResultSet _resultSet = DatabaseMgmt.select("SELECT count(*) FROM accounts"
+                + " WHERE useregn = ?", user.getEgn());
         if (_resultSet.next()) {
             user.getAllUserAccountData(_resultSet.getInt(1));
         }
 
         // EXCTRACT ALL CURRENCIES DATA OUT OF THE CURRENCIES TABLE
         _resultSet = DatabaseMgmt.select("SELECT * FROM accounts WHERE useregn = ?", user.getEgn());
-
         // EXCTRACT ALL CURRENCIES DATA OUT OF THE CURRENCIES TABLE
         for (Accounts currentAccout : user.currnetUserAccounts) {
             _resultSet.next();
@@ -244,6 +231,41 @@ public class UserMgmt {
             currentAccout.setCurrency(_resultSet.getString("currency"));
             currentAccout.setIBAN(_resultSet.getString("iban"));
             currentAccout.setUserEGN(_resultSet.getString("useregn"));
+        }
+
+        return user;
+    }
+
+    /**
+     * Retrieves user's transactions information using its EGN as key to SELECT
+     * it
+     *
+     * @param user - containing valid EGN of a user from "users" table in MySQl
+     * @return a new user.currnetUserTransactions [] array properly filled with
+     * information
+     * @throws SQLException
+     */
+    public static User getUserTransactions(User user) throws SQLException {
+
+        ResultSet _resultSet = DatabaseMgmt.select("SELECT count(*) FROM transactions"
+                + " WHERE useregn = ?", user.getEgn());
+        if (_resultSet.next()) {
+            user.getAllUserTransactionData(_resultSet.getInt(1));
+        }
+
+        // EXCTRACT ALL CURRENCIES DATA OUT OF THE CURRENCIES TABLE
+        _resultSet = DatabaseMgmt.select("SELECT * FROM transactions WHERE useregn = ?", user.getEgn());
+        // EXCTRACT ALL CURRENCIES DATA OUT OF THE CURRENCIES TABLE
+        for (Transactions currentTransaction : user.currentUserTransactions) {
+            _resultSet.next();
+            currentTransaction.setUserEGN(_resultSet.getString("useregn"));
+            currentTransaction.setAmount(_resultSet.getString("amount"));
+            currentTransaction.setCurrency(_resultSet.getString("currency"));
+            currentTransaction.setReceiver(_resultSet.getString("receiver"));
+            currentTransaction.setSubject(_resultSet.getString("subject"));
+            currentTransaction.setIBAN(_resultSet.getString("iban"));
+            currentTransaction.setToIBAN(_resultSet.getString("toiban"));
+            currentTransaction.setTimestamp(_resultSet.getString("timestamp"));
         }
 
         return user;

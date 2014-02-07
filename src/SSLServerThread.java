@@ -59,30 +59,27 @@ public class SSLServerThread extends Thread {
                 user = (User) receivedObj;
 
                 if (user.getRequest().equalsIgnoreCase("login")) {
-
                     System.out.println(timestamp + ": User login request from " + sslSocket.getInetAddress());
-
                     if (UserMgmt.login(user.getUsername(), user.getPassword())) {
-
                         user = UserMgmt.getUserByUsername(user);
                         user.setLoggedIn(true);
                     }
-
                 } else if (user.getRequest().equalsIgnoreCase("create")) {
-
-                    System.out.println(timestamp + ": Create new user request from " + sslSocket.getInetAddress());
+                    System.out.println(timestamp + ": Create new user request from "
+                            + sslSocket.getInetAddress());
                     UserMgmt.createUser(user);
-
                 } else if (user.getRequest().equalsIgnoreCase("searchByEGN")) {
-
-                    System.out.println(timestamp + ": Search for user by ENG request from " + sslSocket.getInetAddress());
+                    System.out.println(timestamp + ": Search for user by ENG request from "
+                            + sslSocket.getInetAddress());
                     user = UserMgmt.getUserByEGN(user);
                 } else if (user.getRequest().equalsIgnoreCase("update")) {
-                    System.out.println(timestamp + ": Update user info request from " + sslSocket.getInetAddress());
+                    System.out.println(timestamp + ": Update user info request from "
+                            + sslSocket.getInetAddress());
                     UserMgmt.updateUser(user);
                     user = UserMgmt.getUserByEGN(user);
                 } else if (user.getRequest().equalsIgnoreCase("updatePass")) {
-                    System.out.println(timestamp + ": Update user password request from " + sslSocket.getInetAddress());
+                    System.out.println(timestamp + ": Update user password request from "
+                            + sslSocket.getInetAddress());
                     UserMgmt.updatePass(user);
                     user = UserMgmt.getUserByUsername(user);
                 }
@@ -96,8 +93,11 @@ public class SSLServerThread extends Thread {
 
                 if (accounts.getRequest().equalsIgnoreCase("create")) {
 
-                    System.out.println(timestamp + ": Create new account request from " + sslSocket.getInetAddress());
-                    AccountsMgmt.createUserAccount(accounts);
+                    System.out.println(timestamp + ": Create new banking account request from " + sslSocket.getInetAddress());
+                    AccountsMgmt.createBankingAccount(accounts);
+                } else if (accounts.getRequest().equalsIgnoreCase("delete")) {
+                    System.out.println(timestamp + ": Delete banking account request from " + sslSocket.getInetAddress());
+                    AccountsMgmt.deleteBankingAccount(accounts);
                 }
 
                 objOutStream.writeObject(accounts);

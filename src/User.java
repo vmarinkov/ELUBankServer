@@ -86,6 +86,21 @@ public class User implements Serializable {
         }
     }
 
+    /**
+     * Creates an array that can be filled with all transaction related data
+     * from the database
+     *
+     * @param arraySize - the number of rolls in "transactions" table, in MySQL
+     */
+    public void getAllUserTransactionData(int arraySize) {
+
+        this.currentUserTransactions = new Transactions[arraySize];
+
+        for (int i = arraySize - 1; i >= 0; i--) {
+            currentUserTransactions[ i] = new Transactions();
+        }
+    }
+
     public String getUsername() {
         return username;
     }
