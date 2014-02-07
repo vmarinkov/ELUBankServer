@@ -66,7 +66,23 @@ public class UserMgmt {
             user.getEgn()
         };
         
-        DatabaseMgmt.execute(query.toString(), allowedColumns, values);
+        DatabaseMgmt.execute(query.toString(), values);
+    }
+    
+    /**
+     * Updates user password (UPDATE into MySQL)
+     *
+     * @param user - object containing all new user data
+     * @throws SQLException
+     */
+    public static void updatePass(User user) throws SQLException {
+        // TODO: Check if username exists.
+        String[] values = {
+            hashpass(user.getPassword()),
+            user.getUsername()
+        };
+        
+        DatabaseMgmt.execute("UPDATE users SET password = ? WHERE username = ?", values);
     }
     
 //    /**
@@ -141,6 +157,7 @@ public class UserMgmt {
                 + "WHERE username =(?)", user.getUsername());
 
         if (_resultSet.next()) {
+            user.setUsername(_resultSet.getString("username"));
             user.setName(_resultSet.getString("name"));
             user.setSurname(_resultSet.getString("surname"));
             user.setFamilyname(_resultSet.getString("familyname"));
@@ -176,6 +193,7 @@ public class UserMgmt {
                 + "WHERE egn =(?)", user.getEgn());
 
         if (_resultSet.next()) {
+            user.setUsername(_resultSet.getString("username"));
             user.setName(_resultSet.getString("name"));
             user.setSurname(_resultSet.getString("surname"));
             user.setFamilyname(_resultSet.getString("familyname"));
