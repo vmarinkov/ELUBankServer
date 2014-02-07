@@ -125,7 +125,6 @@ public class CurrencyMgmt {
     public static void parseXML(String date) {
 
         try {
-
             downloadBnbXml("bnb.xml");
             File fXmlFile = new File("bnb.xml");
 
@@ -142,6 +141,8 @@ public class CurrencyMgmt {
             NodeList nList = doc.getElementsByTagName("ROW");
 
             DatabaseMgmt.execute("DELETE FROM currencies");
+            DatabaseMgmt.execute("INSERT INTO currencies VALUES (?, ?, ?, ?, ?, ?)",
+                    new String[]{"Euro", "1.95583", "EUR", "1", "0.511292", date});
 
             for (int temp = 1; temp < nList.getLength(); temp++) {
 
@@ -159,16 +160,9 @@ public class CurrencyMgmt {
 
                     System.out.println(name + " " + rate + " " + code + " " + ratio + " " + reverserate);
 
-                    String[] values = {name, rate, code, ratio, reverserate, date};
+                    String[] valuesDynamic = {name, rate, code, ratio, reverserate, date};
 
-                    DatabaseMgmt.execute("INSERT INTO currencies VALUES (?, ?, ?, ?, ?, ?)", values);
-
-//                    if (eElement.getElementsByTagName("RATIO").getLength() > 0) {
-//                        System.out.println("RATIO : " + eElement.getElementsByTagName("RATIO").getLength());
-//                    }
-//                    if (eElement.getElementsByTagName("RATE").getLength() > 0) {
-//                        System.out.println("RATE : " + eElement.getElementsByTagName("RATE").item(0).getTextContent());
-//                    }
+                    DatabaseMgmt.execute("INSERT INTO currencies VALUES (?, ?, ?, ?, ?, ?)", valuesDynamic);
                 }
             }
             fXmlFile.delete();
