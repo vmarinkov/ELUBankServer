@@ -16,5 +16,31 @@ public class TransactionsMgmt {
         // log transaction into transactions
         // - amount to the current IBAN check that there is enough money in that smetka
         // + amount to the receivers IBAN (toiban) if its another ELUBank Client
+
+        /*
+         1 check if there is enough money in that account
+         -- if there is enought money and toiban is not an internal iban -> just take that
+         money out of total amount and log the transaction
+         !!! also change lastupdate value in accounts
+        
+         -- if there is enought money and it is internal toiban ->
+         check currency CODES
+         normalize currencies
+         take that amount from the current iban and log that transaction
+         !!! also change lastupdate value in accounts
+         add that amount to the receiver's account and log the transaction
+        
+         */
+    }
+
+    /**
+     * Removes an existing transaction (DELETE from MySQL)
+     *
+     * @param transaction - transaction that is going to be removed
+     * @throws SQLException
+     */
+    public static void deleteTransaction(Transactions transaction) throws SQLException {
+
+        DatabaseMgmt.execute("DELETE FROM transactions WHERE useregn = ? LIMIT 1", transaction.getUserEGN());
     }
 }

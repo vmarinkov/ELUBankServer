@@ -31,7 +31,7 @@ public class Transactions implements Serializable {
      *
      * @param arraySize - the number of rolls in "transactions" table, in MySQL
      */
-    public void getAllTransactionData(int arraySize) {
+    public void initializeTransactionsArray(int arraySize) {
 
         this.allTransactions = new Transactions[arraySize];
 

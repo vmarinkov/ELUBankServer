@@ -87,13 +87,22 @@ public class UserMgmt {
     /**
      * Deletes an existing user (DELETE from MySQL)
      *
-     * @param username - Using USERNAME as a super key to specify which user
-     * should be deleted
+     * @param user - Using user's EGN as a super key to specify which user
      * @throws SQLException
      */
-    public static void deleteUser(String username) throws SQLException {
+    public static void deleteUser(User user) throws SQLException {
 
-        DatabaseMgmt.execute("DELETE FROM users WHERE username = ? LIMIT 1", username);
+        // delete user's banking accounts
+        for (Accounts currentAccount : user.getAccounts()) {
+            AccountsMgmt.deleteBankingAccount(currentAccount);
+        }
+        // delete user's transactions
+        for (Transactions currentTransaction : user.getTransactions()) {
+            TransactionsMgmt.deleteTransaction(currentTransaction);
+        }
+        // delete user itself
+        DatabaseMgmt.execute("DELETE FROM users WHERE egn = ? LIMIT 1", user.getEgn());
+
     }
 
     /**
@@ -219,11 +228,11 @@ public class UserMgmt {
         ResultSet _resultSet = DatabaseMgmt.select("SELECT count(*) FROM accounts"
                 + " WHERE useregn = ?", user.getEgn());
         if (_resultSet.next()) {
-            user.getAllUserAccountData(_resultSet.getInt(1));
+            user.initializeUserAccountsArray(_resultSet.getInt(1));
         }
-        
+
         _resultSet = DatabaseMgmt.select("SELECT * FROM accounts WHERE useregn = ?", user.getEgn());
-        
+
         for (Accounts currentAccount : user.getAccounts()) {
             _resultSet.next();
             currentAccount.setAccountType(_resultSet.getString("accounttype"));
@@ -250,11 +259,11 @@ public class UserMgmt {
         ResultSet _resultSet = DatabaseMgmt.select("SELECT count(*) FROM transactions"
                 + " WHERE useregn = ?", user.getEgn());
         if (_resultSet.next()) {
-            user.getAllUserTransactionData(_resultSet.getInt(1));
+            user.initializeUserTransactionsArray(_resultSet.getInt(1));
         }
 
         _resultSet = DatabaseMgmt.select("SELECT * FROM transactions WHERE useregn = ?", user.getEgn());
-        
+
         for (Transactions currentTransaction : user.getTransactions()) {
             _resultSet.next();
             currentTransaction.setUserEGN(_resultSet.getString("useregn"));
@@ -265,6 +274,37 @@ public class UserMgmt {
             currentTransaction.setIBAN(_resultSet.getString("iban"));
             currentTransaction.setToIBAN(_resultSet.getString("toiban"));
             currentTransaction.setTimestamp(_resultSet.getString("timestamp"));
+        }
+
+        return user;
+    }
+
+    public static User getAllUsers(User user) throws SQLException {
+        ResultSet _resultSet;
+
+        _resultSet = DatabaseMgmt.select("SELECT count(*) FROM users");
+
+        while (_resultSet.next()) {
+            user.initializeUserArray(_resultSet.getInt(1));
+        }
+
+        // EXCTRACT ALL CURRENCIES DATA OUT OF THE CURRENCIES TABLE
+        _resultSet = DatabaseMgmt.select("SELECT * FROM users");
+
+        // EXCTRACT ALL CURRENCIES DATA OUT OF THE CURRENCIES TABLE
+        for (User currentUser : user.getAllUser()) {
+            _resultSet.next();
+            currentUser.setUsername(_resultSet.getString("username"));
+            currentUser.setName(_resultSet.getString("name"));
+            currentUser.setSurname(_resultSet.getString("surname"));
+            currentUser.setFamilyname(_resultSet.getString("familyname"));
+            currentUser.setEgn(_resultSet.getString("egn"));
+            currentUser.setCountry(_resultSet.getString("country"));
+            currentUser.setCity(_resultSet.getString("city"));
+            currentUser.setAddress(_resultSet.getString("address"));
+            currentUser.setPhone(_resultSet.getString("phone"));
+            currentUser.setEmail(_resultSet.getString("email"));
+            currentUser.setUserType(_resultSet.getString("usertype"));
         }
 
         return user;
@@ -281,7 +321,7 @@ public class UserMgmt {
 
         String SALT_BEGIN = "n@,k4gj@.@";
         String SALT_END = "4!ok^|</`c";
-        
+
         return md5(md5(SALT_BEGIN + password + SALT_END));
     }
 

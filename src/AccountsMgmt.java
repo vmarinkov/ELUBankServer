@@ -16,7 +16,7 @@ import java.util.Calendar;
 public class AccountsMgmt {
 
     /**
-     * Crates a new transaction account (INSERT into MySQL)
+     * Crates a new banking account (INSERT into MySQL)
      *
      * @param account - object containing all new account data
      * @throws SQLException
@@ -35,7 +35,7 @@ public class AccountsMgmt {
     }
 
     /**
-     * Removes an existing transaction account (DELETE from MySQL)
+     * Removes an existing banking account (DELETE from MySQL)
      *
      * @param account - the user's account that is going to be removed
      * @throws SQLException

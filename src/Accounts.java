@@ -30,7 +30,7 @@ public class Accounts implements Serializable {
      *
      * @param arraySize - the number of rolls in "accounts" table, in MySQL
      */
-    public void getAllAccountData(int arraySize) {
+    public void initializeAccountsArray(int arraySize) {
 
         this.allAccounts = new Accounts[arraySize];
 

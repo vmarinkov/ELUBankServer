@@ -61,7 +61,7 @@ public class User implements Serializable {
      *
      * @param arraySize - the number of rolls in "users" table, in MySQL
      */
-    public void getAllUserData(int arraySize) {
+    public void initializeUserArray(int arraySize) {
 
         this.allUsers = new User[arraySize];
 
@@ -76,7 +76,7 @@ public class User implements Serializable {
      *
      * @param arraySize - the number of rolls in "accounts" table, in MySQL
      */
-    public void getAllUserAccountData(int arraySize) {
+    public void initializeUserAccountsArray(int arraySize) {
 
         this.accounts = new Accounts[arraySize];
 
@@ -91,7 +91,7 @@ public class User implements Serializable {
      *
      * @param arraySize - the number of rolls in "transactions" table, in MySQL
      */
-    public void getAllUserTransactionData(int arraySize) {
+    public void initializeUserTransactionsArray(int arraySize) {
 
         this.transactions = new Transactions[arraySize];
 
