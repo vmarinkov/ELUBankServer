@@ -10,7 +10,7 @@ import java.io.Serializable;
  */
 public class Currency implements Serializable {
 
-    public Currency[] allCurrencies = null;
+    private Currency[] allCurrencies = null;
 
     private static final long serialVersionUID = 1L;
     private static final String DELIMITER = "::";
@@ -39,6 +39,10 @@ public class Currency implements Serializable {
         }
     }
 
+    public Currency[] getAllCurrencies() {
+        return this.allCurrencies;
+    }
+    
     public String getName() {
         return name;
     }
