@@ -91,18 +91,14 @@ public class UserMgmt {
      * @throws SQLException
      */
     public static void deleteUser(User user) throws SQLException {
-
         // delete user's banking accounts
         for (Accounts currentAccount : user.getAccounts()) {
             AccountsMgmt.deleteBankingAccount(currentAccount);
         }
         // delete user's transactions
-        for (Transactions currentTransaction : user.getTransactions()) {
-            TransactionsMgmt.deleteTransaction(currentTransaction);
-        }
+        TransactionsMgmt.deleteTransactions(user.getEgn());
         // delete user itself
         DatabaseMgmt.execute("DELETE FROM users WHERE egn = ? LIMIT 1", user.getEgn());
-
     }
 
     /**

@@ -36,11 +36,11 @@ public class TransactionsMgmt {
     /**
      * Removes an existing transaction (DELETE from MySQL)
      *
-     * @param transaction - transaction that is going to be removed
+     * @param egn - transaction that is going to be removed
      * @throws SQLException
      */
-    public static void deleteTransaction(Transactions transaction) throws SQLException {
+    public static void deleteTransactions(String egn) throws SQLException {
 
-        DatabaseMgmt.execute("DELETE FROM transactions WHERE useregn = ? LIMIT 1", transaction.getUserEGN());
+        DatabaseMgmt.execute("DELETE FROM transactions WHERE useregn = ?", egn);
     }
 }
