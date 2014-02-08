@@ -59,7 +59,8 @@ public class SSLServerThread extends Thread {
                 user = (User) receivedObj;
 
                 if (user.getRequest().equalsIgnoreCase("login")) {
-                    System.out.println(timestamp + ": User login request from " + sslSocket.getInetAddress());
+                    System.out.println(timestamp + ": User login request from "
+                            + sslSocket.getInetAddress());
                     if (UserMgmt.login(user.getUsername(), user.getPassword())) {
                         user = UserMgmt.getUserByUsername(user);
                         user.setLoggedIn(true);
@@ -82,6 +83,14 @@ public class SSLServerThread extends Thread {
                             + sslSocket.getInetAddress());
                     UserMgmt.updatePass(user);
                     user = UserMgmt.getUserByUsername(user);
+                } else if (user.getRequest().equalsIgnoreCase("getAllUsers")) {
+                    System.out.println(timestamp + ": Get all user data request from "
+                            + sslSocket.getInetAddress());
+                    user = UserMgmt.getAllUsers(user);
+                } else if (user.getRequest().equalsIgnoreCase("delete")) {
+                    System.out.println(timestamp + ": Delete user request from "
+                            + sslSocket.getInetAddress());
+                    UserMgmt.deleteUser(user);
                 }
 
                 objOutStream.writeObject(user);
@@ -92,11 +101,12 @@ public class SSLServerThread extends Thread {
                 accounts = (Accounts) receivedObj;
 
                 if (accounts.getRequest().equalsIgnoreCase("create")) {
-
-                    System.out.println(timestamp + ": Create new banking account request from " + sslSocket.getInetAddress());
+                    System.out.println(timestamp + ": Create new banking account request from "
+                            + sslSocket.getInetAddress());
                     AccountsMgmt.createBankingAccount(accounts);
                 } else if (accounts.getRequest().equalsIgnoreCase("delete")) {
-                    System.out.println(timestamp + ": Delete banking account request from " + sslSocket.getInetAddress());
+                    System.out.println(timestamp + ": Delete banking account request from "
+                            + sslSocket.getInetAddress());
                     AccountsMgmt.deleteBankingAccount(accounts);
                 }
 
@@ -106,7 +116,12 @@ public class SSLServerThread extends Thread {
             } else if (receivedObj instanceof Transactions) {
 
                 transactions = (Transactions) receivedObj;
-                // TODO handle requests.
+
+                if (transactions.getRequest().equalsIgnoreCase("newTransaction")) {
+                    System.out.println(timestamp + ": New transaction request from "
+                            + sslSocket.getInetAddress());
+                    TransactionsMgmt.newTransaction(transactions);
+                }
                 objOutStream.writeObject(transactions);
 
                 // handle "currencies" specific client's requests
@@ -115,7 +130,8 @@ public class SSLServerThread extends Thread {
                 currency = (Currency) receivedObj;
 
                 if (currency.getRequest().equalsIgnoreCase("getAllCurrencyData")) {
-
+                    System.out.println(timestamp + ": Get currency data request from "
+                            + sslSocket.getInetAddress());
                     currency = CurrencyMgmt.getAllCurrencyData(currency);
                 }
 
