@@ -27,6 +27,7 @@ public class ELUBankServer {
 
             DatabaseMgmt.connect();
             CurrencyMgmt.parseXML(dateAndTime[0]);
+            AccountsMgmt.applyInterests();
             System.out.println("Starting server...");
             new SSLServer().startServer();
 

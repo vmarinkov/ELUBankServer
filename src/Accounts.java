@@ -15,7 +15,7 @@ public class Accounts implements Serializable {
     private static final long serialVersionUID = 1L;
     private static final String DELIMITER = "::";
 
-    private String useregn, accounttype, iban, amount, currency;
+    private String useregn, accounttype, iban, amount, currency, lastupdated;
 
     /**
      * @param request - client's request (ex: createNewClientAccount)
@@ -78,6 +78,14 @@ public class Accounts implements Serializable {
     public void setCurrency(String currency) {
         this.currency = currency;
     }
+    
+    public String getDateUpdated() {
+        return lastupdated;
+    }
+
+    public void setDateUpdated(String lastUpdated) {
+        this.lastupdated = lastUpdated;
+    }
 
     public String getRequest() {
         return request;
@@ -97,8 +105,8 @@ public class Accounts implements Serializable {
 
     @Override
     public String toString() {
-        return useregn + DELIMITER + accounttype + DELIMITER + iban
-                + DELIMITER + amount + DELIMITER + currency;
+        return useregn + DELIMITER + accounttype + DELIMITER + iban + DELIMITER
+                + amount + DELIMITER + currency + DELIMITER + lastupdated;
     }
 
     public String[] toStringArray() {
