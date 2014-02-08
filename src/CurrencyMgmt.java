@@ -49,7 +49,7 @@ public class CurrencyMgmt {
         _resultSet = DatabaseMgmt.select("SELECT * FROM currencies");
 
         // EXCTRACT ALL CURRENCIES DATA OUT OF THE CURRENCIES TABLE
-        for (Currency currentCurrency : currency.allCurrencies) {
+        for (Currency currentCurrency : currency.getAllCurrencies()) {
             _resultSet.next();
             currentCurrency.setName(_resultSet.getString("name"));
             currentCurrency.setRate(_resultSet.getString("rate"));
