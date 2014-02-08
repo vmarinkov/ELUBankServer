@@ -153,6 +153,7 @@ public class UserMgmt {
             user.setUserType(_resultSet.getString("usertype"));
         } else {
             user.setResponse("userNotFound");
+            return user;
         }
 
         if (user.getUserType().equalsIgnoreCase("2")
@@ -194,6 +195,7 @@ public class UserMgmt {
             user.setUserType(_resultSet.getString("usertype"));
         } else {
             user.setResponse("userNotFound");
+            return user;
         }
 
         if (user.getUserType().equalsIgnoreCase("2")
