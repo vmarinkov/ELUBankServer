@@ -63,6 +63,32 @@ public class CurrencyMgmt {
     }
 
     /**
+     * Returns currency info by its code
+     *  
+     * @param currnecyCode - valid currency code
+     * @return - currency data
+     * @throws SQLException 
+     */
+    public static Currency getCurrencyByCode(String currnecyCode) throws SQLException {
+
+        ResultSet _resultSet = DatabaseMgmt.select("SELECT * FROM currencies"
+                + " WHERE code = ?", currnecyCode);
+
+        Currency currency = new Currency();
+
+        if (_resultSet.next()) {
+            currency.setName(_resultSet.getString("name"));
+            currency.setRate(_resultSet.getString("rate"));
+            currency.setCode(_resultSet.getString("code"));
+            currency.setRatio(_resultSet.getString("ratio"));
+            currency.setReverserate(_resultSet.getString("reverserate"));
+            currency.setDate(_resultSet.getString("date"));
+        }
+
+        return currency;
+    }
+
+    /**
      * This function downloads the currency XML file from bnb.bg to a local
      * copy.
      *

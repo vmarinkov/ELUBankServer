@@ -46,8 +46,33 @@ public class AccountsMgmt {
     }
 
     /**
-     * Applies banking accounts interests (2% increase every 3 months)
+     * Returns user's banking account by its iban
      * 
+     * @param iban - valid baking account iban
+     * @return - banking account data
+     * @throws SQLException 
+     */
+    public static Accounts getAccountByIBAN(String iban) throws SQLException {
+
+        ResultSet _resultSet = DatabaseMgmt.select("SELECT * FROM accounts"
+                + " WHERE iban = ?", iban);
+
+        Accounts account = new Accounts();
+
+        if (_resultSet.next()) {
+            account.setAccountType(_resultSet.getString("accounttype"));
+            account.setAmount(_resultSet.getString("amount"));
+            account.setCurrency(_resultSet.getString("currency"));
+            account.setIBAN(_resultSet.getString("iban"));
+            account.setUserEGN(_resultSet.getString("useregn"));
+        }
+
+        return account;
+    }
+
+    /**
+     * Applies banking accounts interests (2% increase every 3 months)
+     *
      * @throws SQLException
      */
     public static void applyInterests() throws SQLException {

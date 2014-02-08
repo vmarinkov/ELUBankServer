@@ -26,6 +26,15 @@ public class ELUBankServer {
             String time[] = dateAndTime[1].split(":");
 
             DatabaseMgmt.connect();
+//            Transactions trs = new Transactions();
+//            trs.setAmount("343.33");
+//            trs.setCurrency("EUR");
+//            trs.setIBAN("BG11ELUB16320299017157");
+//            trs.setToIBAN("BG11ELUB16320338853268");
+//            trs.setUserEGN("8612123738");
+//            trs.setReceiver("Pe6o");
+//            trs.setSubject("proba");
+//            TransactionsMgmt.newTransaction(trs);
             CurrencyMgmt.parseXML(dateAndTime[0]);
             AccountsMgmt.applyInterests();
             System.out.println("Starting server...");
