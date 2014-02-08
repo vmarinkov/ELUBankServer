@@ -209,8 +209,7 @@ public class UserMgmt {
      * Retrieves user's accounts information using its EGN as key to SELECT it
      *
      * @param user - containing valid EGN of a user from "users" table in MySQl
-     * @return a new user.currnetUserAccounts [] array properly filled with
-     * information
+     * @return a new user.accounts [] array properly filled with information
      * @throws SQLException
      */
     public static User getUserAccounts(User user) throws SQLException {
@@ -220,17 +219,16 @@ public class UserMgmt {
         if (_resultSet.next()) {
             user.getAllUserAccountData(_resultSet.getInt(1));
         }
-
-        // EXCTRACT ALL CURRENCIES DATA OUT OF THE CURRENCIES TABLE
+        
         _resultSet = DatabaseMgmt.select("SELECT * FROM accounts WHERE useregn = ?", user.getEgn());
-        // EXCTRACT ALL CURRENCIES DATA OUT OF THE CURRENCIES TABLE
-        for (Accounts currentAccout : user.currnetUserAccounts) {
+        
+        for (Accounts currentAccount : user.getAccounts()) {
             _resultSet.next();
-            currentAccout.setAccountType(_resultSet.getString("accounttype"));
-            currentAccout.setAmount(_resultSet.getString("amount"));
-            currentAccout.setCurrency(_resultSet.getString("currency"));
-            currentAccout.setIBAN(_resultSet.getString("iban"));
-            currentAccout.setUserEGN(_resultSet.getString("useregn"));
+            currentAccount.setAccountType(_resultSet.getString("accounttype"));
+            currentAccount.setAmount(_resultSet.getString("amount"));
+            currentAccount.setCurrency(_resultSet.getString("currency"));
+            currentAccount.setIBAN(_resultSet.getString("iban"));
+            currentAccount.setUserEGN(_resultSet.getString("useregn"));
         }
 
         return user;
@@ -253,10 +251,9 @@ public class UserMgmt {
             user.getAllUserTransactionData(_resultSet.getInt(1));
         }
 
-        // EXCTRACT ALL CURRENCIES DATA OUT OF THE CURRENCIES TABLE
         _resultSet = DatabaseMgmt.select("SELECT * FROM transactions WHERE useregn = ?", user.getEgn());
-        // EXCTRACT ALL CURRENCIES DATA OUT OF THE CURRENCIES TABLE
-        for (Transactions currentTransaction : user.currentUserTransactions) {
+        
+        for (Transactions currentTransaction : user.getTransactions()) {
             _resultSet.next();
             currentTransaction.setUserEGN(_resultSet.getString("useregn"));
             currentTransaction.setAmount(_resultSet.getString("amount"));
@@ -274,7 +271,7 @@ public class UserMgmt {
     /**
      * Creates a double hash sum of the user's password + salt
      *
-     * @param password: the password that is going to be hashed
+     * @param password - the password that is going to be hashed
      * @return encrypted user password
      * @see md5 method
      */
@@ -282,15 +279,15 @@ public class UserMgmt {
 
         String SALT_BEGIN = "n@,k4gj@.@";
         String SALT_END = "4!ok^|</`c";
-
+        
         return md5(md5(SALT_BEGIN + password + SALT_END));
     }
 
     /**
-     * Used in hashpass method
+     * Used in {@link #hashpass() hashpass()}
      *
-     * @param input: user password + salts
-     * @return md5 hash sum
+     * @param input - a string to hash.
+     * @return Hash of the given string.
      */
     private static String md5(String input) {
 

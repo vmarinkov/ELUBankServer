@@ -11,10 +11,9 @@ import java.io.Serializable;
  */
 public class User implements Serializable {
 
-    public User[] allUsers = null;
-    // TODO - extend user class to create data for its own accounts/transactions
-    public Accounts[] currnetUserAccounts = null;
-    public Transactions[] currentUserTransactions = null;
+    public User[] allUsers = null; // <-- TODO: Do we need this?
+    private Accounts[] accounts = null;
+    private Transactions[] transactions = null;
 
     private static final long serialVersionUID = 1L;
     private static final String DELIMITER = "::";
@@ -79,10 +78,10 @@ public class User implements Serializable {
      */
     public void getAllUserAccountData(int arraySize) {
 
-        this.currnetUserAccounts = new Accounts[arraySize];
+        this.accounts = new Accounts[arraySize];
 
         for (int i = arraySize - 1; i >= 0; i--) {
-            currnetUserAccounts[ i] = new Accounts();
+            accounts[ i] = new Accounts();
         }
     }
 
@@ -94,13 +93,21 @@ public class User implements Serializable {
      */
     public void getAllUserTransactionData(int arraySize) {
 
-        this.currentUserTransactions = new Transactions[arraySize];
+        this.transactions = new Transactions[arraySize];
 
         for (int i = arraySize - 1; i >= 0; i--) {
-            currentUserTransactions[ i] = new Transactions();
+            transactions[ i] = new Transactions();
         }
     }
-
+    
+    public Accounts[] getAccounts() {
+        return this.accounts;
+    }
+    
+    public Transactions[] getTransactions() {
+        return this.transactions;
+    }
+    
     public String getUsername() {
         return username;
     }

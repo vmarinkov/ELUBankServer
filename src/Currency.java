@@ -13,7 +13,8 @@ public class Currency implements Serializable {
     public Currency[] allCurrencies = null;
 
     private static final long serialVersionUID = 1L;
-
+    private static final String DELIMITER = "::";
+    
     private String name, rate, code, ratio, reverserate, date;
 
     /**
@@ -100,5 +101,27 @@ public class Currency implements Serializable {
 
     public void setResponse(String response) {
         this.response = response;
+    }
+    
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(name);
+        sb.append(DELIMITER);
+        sb.append(rate);
+        sb.append(DELIMITER);
+        sb.append(code);
+        sb.append(DELIMITER);
+        sb.append(ratio);
+        sb.append(DELIMITER);
+        sb.append(reverserate);
+        sb.append(DELIMITER);
+        sb.append(date);
+        
+        return sb.toString();
+    }
+
+    public String[] toStringArray() {
+        return (this.toString()).split(DELIMITER);
     }
 }
