@@ -108,7 +108,7 @@ public class SSLServerThread extends Thread {
                     UserMgmt.createUser(user);
                     break;
 
-                case "searchByEGN":
+                case "search":
                     LOG.info("Search for user request from "
                             .concat(sslSocket.getInetAddress().toString()));
                     user = UserMgmt.getUserByEGN(user);
