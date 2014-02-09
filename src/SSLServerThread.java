@@ -88,6 +88,9 @@ public class SSLServerThread extends Thread {
         }
     }
 
+    /**
+     * Performs user requests
+     */
     private void handleUser() {
         try {
             // handle requests
@@ -150,6 +153,9 @@ public class SSLServerThread extends Thread {
         }
     }
 
+    /**
+     * Performs account requests
+     */
     private void handleAccounts() {
         try {
             // handle requests
@@ -177,6 +183,9 @@ public class SSLServerThread extends Thread {
         }
     }
 
+    /**
+     * Performs transaction requests
+     */
     private void handleTransactions() {
         try {
             // handle requests
@@ -194,6 +203,9 @@ public class SSLServerThread extends Thread {
         }
     }
 
+    /**
+     * Performs currency requests
+     */
     private void handleCurrencies() {
         try {
             // handle requests
