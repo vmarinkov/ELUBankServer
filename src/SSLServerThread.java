@@ -17,18 +17,17 @@ import javax.net.ssl.SSLSocket;
  */
 public class SSLServerThread extends Thread {
 
+    private Timestamp timestamp;
     private SSLSocket sslSocket = null;
 
     private ObjectOutputStream objOutStream = null;
     private ObjectInputStream objInStream = null;
 
-    private Timestamp timestamp;
-
     private Object receivedObj = null;
     private User user = null;
     private Accounts accounts = null;
     private Transactions transactions = null;
-    private Currency currency = null;
+    private Currency currencies = null;
 
     SSLServerThread(SSLSocket sslSocket) {
         this.sslSocket = sslSocket;
@@ -57,122 +56,26 @@ public class SSLServerThread extends Thread {
             if (receivedObj instanceof User) {
 
                 user = (User) receivedObj;
-
-                if (user.getRequest().equalsIgnoreCase("login")) {
-                    System.out.println(timestamp + ": User login request from "
-                            + sslSocket.getInetAddress());
-                    if (UserMgmt.login(user.getUsername(), user.getPassword())) {
-                        user = UserMgmt.getUserByUsername(user);
-                        user.setLoggedIn(true);
-                    }
-                } else if (user.getRequest().equalsIgnoreCase("create")) {
-                    System.out.println(timestamp + ": Create new user request from "
-                            + sslSocket.getInetAddress());
-                    UserMgmt.createUser(user);
-                } else if (user.getRequest().equalsIgnoreCase("searchByEGN")) {
-                    System.out.println(timestamp + ": Search for user by ENG request from "
-                            + sslSocket.getInetAddress());
-                    user = UserMgmt.getUserByEGN(user);
-                } else if (user.getRequest().equalsIgnoreCase("update")) {
-                    System.out.println(timestamp + ": Update user info request from "
-                            + sslSocket.getInetAddress());
-                    UserMgmt.updateUser(user);
-                    user = UserMgmt.getUserByEGN(user);
-                } else if (user.getRequest().equalsIgnoreCase("updatePass")) {
-                    System.out.println(timestamp + ": Update user password request from "
-                            + sslSocket.getInetAddress());
-                    UserMgmt.updatePass(user);
-                    user = UserMgmt.getUserByUsername(user);
-                } else if (user.getRequest().equalsIgnoreCase("getAllUsers")) {
-                    System.out.println(timestamp + ": Get all user data request from "
-                            + sslSocket.getInetAddress());
-                    user = UserMgmt.getAllUsers(user);
-                } else if (user.getRequest().equalsIgnoreCase("delete")) {
-                    System.out.println(timestamp + ": Delete user request from "
-                            + sslSocket.getInetAddress());
-                    UserMgmt.deleteUser(user);
-                }
-
+                handleUser();
                 objOutStream.writeObject(user);
-
-                // handle "accounts" specific client's requests
+            // handle "accounts" specific client's requests
             } else if (receivedObj instanceof Accounts) {
 
                 accounts = (Accounts) receivedObj;
-
-                if (accounts.getRequest().equalsIgnoreCase("create")) {
-                    System.out.println(timestamp + ": Create new banking account request from "
-                            + sslSocket.getInetAddress());
-                    AccountsMgmt.createBankingAccount(accounts);
-                } else if (accounts.getRequest().equalsIgnoreCase("delete")) {
-                    System.out.println(timestamp + ": Delete banking account request from "
-                            + sslSocket.getInetAddress());
-                    AccountsMgmt.deleteBankingAccount(accounts);
-                }
-
+                handleAccounts();
                 objOutStream.writeObject(accounts);
-
-                // handle "transactions" specific client's requests
+            // handle "transactions" specific client's requests
             } else if (receivedObj instanceof Transactions) {
 
                 transactions = (Transactions) receivedObj;
-
-                if (transactions.getRequest().equalsIgnoreCase("newTransaction")) {
-                    System.out.println(timestamp + ": New transaction request from "
-                            + sslSocket.getInetAddress());
-                    TransactionsMgmt.newTransaction(transactions);
-                }
+                handleTransactions();
                 objOutStream.writeObject(transactions);
-
-                // handle "currencies" specific client's requests
+            // handle "currencies" specific client's requests
             } else if (receivedObj instanceof Currency) {
 
-                currency = (Currency) receivedObj;
-
-                if (currency.getRequest().equalsIgnoreCase("getAllCurrencyData")) {
-                    System.out.println(timestamp + ": Get currency data request from "
-                            + sslSocket.getInetAddress());
-                    currency = CurrencyMgmt.getAllCurrencyData(currency);
-                }
-
-                objOutStream.writeObject(currency);
-            }
-
-        } catch (SQLException ex) {
-
-            // handle "users" table MySQL exceptions
-            if (receivedObj instanceof User) {
-
-                if (ex.getMessage().toLowerCase().contains(user.getUsername().toLowerCase())) {
-                    user.setResponse("userExists");
-                } else if (ex.getMessage().toLowerCase().contains(user.getEgn().toLowerCase())) {
-                    user.setResponse("egnExists");
-                } else {
-                    Logger.getLogger(SSLServerThread.class.getName()).log(Level.SEVERE, null, ex);
-                    return;
-                }
-
-                try {
-                    objOutStream.writeObject(user);
-                } catch (IOException ex1) {
-                    Logger.getLogger(SSLServerThread.class.getName()).log(Level.SEVERE, null, ex1);
-                }
-
-                // handle "accounts" table MySQL exceptions
-            } else if (receivedObj instanceof Accounts) {
-
-                if (ex.getMessage().toLowerCase().contains(accounts.getIBAN().toLowerCase())) {
-                    accounts.setResponse("ibanExists");
-                } else {
-                    Logger.getLogger(SSLServerThread.class.getName()).log(Level.SEVERE, null, ex);
-                    return;
-                }
-
-                try {
-                    objOutStream.writeObject(accounts);
-                } catch (IOException ex1) {
-                    Logger.getLogger(SSLServerThread.class.getName()).log(Level.SEVERE, null, ex1);
-                }
+                currencies = (Currency) receivedObj;
+                handleCurrencies();
+                objOutStream.writeObject(currencies);
             }
         } catch (IOException | ClassNotFoundException ex) {
             Logger.getLogger(SSLServerThread.class.getName()).log(Level.SEVERE, null, ex);
@@ -184,6 +87,129 @@ public class SSLServerThread extends Thread {
             } catch (IOException ex) {
                 Logger.getLogger(SSLServerThread.class.getName()).log(Level.SEVERE, null, ex);
             }
+        }
+    }
+
+    private void handleUser() {
+        try {
+            // handle requests
+            switch (user.getRequest()) {
+
+                case "login":
+                    System.out.println(timestamp + ": User login request from "
+                            + sslSocket.getInetAddress());
+                    if (UserMgmt.login(user.getUsername(), user.getPassword())) {
+                        user = UserMgmt.getUserByUsername(user);
+                        user.setLoggedIn(true);
+                    }
+                    break;
+
+                case "create":
+                    System.out.println(timestamp + ": Create new user request from "
+                            + sslSocket.getInetAddress());
+                    UserMgmt.createUser(user);
+                    break;
+
+                case "searchByEGN":
+                    System.out.println(timestamp + ": Search for user by ENG request from "
+                            + sslSocket.getInetAddress());
+                    user = UserMgmt.getUserByEGN(user);
+                    break;
+
+                case "update":
+                    System.out.println(timestamp + ": Update user info request from "
+                            + sslSocket.getInetAddress());
+                    UserMgmt.updateUser(user);
+                    break;
+
+                case "updatePass":
+                    System.out.println(timestamp + ": Update user password request from "
+                            + sslSocket.getInetAddress());
+                    UserMgmt.updatePass(user);
+                    break;
+
+                case "getAll":
+                    System.out.println(timestamp + ": Get all user data request from "
+                            + sslSocket.getInetAddress());
+                    user = UserMgmt.getAllUsers(user);
+                    break;
+
+                case "delete":
+                    System.out.println(timestamp + ": Delete user request from "
+                            + sslSocket.getInetAddress());
+                    UserMgmt.deleteUser(user);
+                    break;
+            }
+            // handle some "users" table MySQL exceptions
+        } catch (SQLException ex) {
+            if (ex.getMessage().toLowerCase().contains(user.getUsername().toLowerCase())) {
+                user.setResponse("userExists");
+            } else if (ex.getMessage().toLowerCase().contains(user.getEgn().toLowerCase())) {
+                user.setResponse("egnExists");
+            } else {
+                Logger.getLogger(SSLServerThread.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    private void handleAccounts() {
+        try {
+            // handle requests
+            switch (accounts.getRequest()) {
+
+                case "create":
+                    System.out.println(timestamp + ": Create new banking account request from "
+                            + sslSocket.getInetAddress());
+                    AccountsMgmt.createBankingAccount(accounts);
+                    break;
+
+                case "delete":
+                    System.out.println(timestamp + ": Delete banking account request from "
+                            + sslSocket.getInetAddress());
+                    AccountsMgmt.deleteBankingAccount(accounts);
+                    break;
+            }
+            // handle some "accounts" table MySQL exceptions
+        } catch (SQLException ex) {
+            if (ex.getMessage().toLowerCase().contains(accounts.getIBAN().toLowerCase())) {
+                accounts.setResponse("ibanExists");
+            } else {
+                Logger.getLogger(SSLServerThread.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    private void handleTransactions() {
+        try {
+            // handle requests
+            switch (transactions.getRequest()) {
+
+                case "newTransaction":
+                    System.out.println(timestamp + ": New transaction request from "
+                            + sslSocket.getInetAddress());
+                    TransactionsMgmt.newTransaction(transactions);
+                    break;
+            }
+            // handle some "transactions" table MySQL exceptions
+        } catch (SQLException ex) {
+            Logger.getLogger(SSLServerThread.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void handleCurrencies() {
+        try {
+            // handle requests
+            switch (currencies.getRequest()) {
+
+                case "getAllCurrencyData":
+                    System.out.println(timestamp + ": Get currency data request from "
+                            + sslSocket.getInetAddress());
+                    currencies = CurrencyMgmt.getAllCurrencyData(currencies);
+                    break;
+            }
+            // handle some "currencies" table MySQL exceptions
+        } catch (SQLException ex) {
+            Logger.getLogger(SSLServerThread.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
