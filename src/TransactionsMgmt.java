@@ -1,10 +1,7 @@
-
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.regex.Pattern;
-import javax.security.auth.login.AccountException;
 
 /**
  * Class that uses both the database management class as well as the

@@ -78,7 +78,7 @@ public class Accounts implements Serializable {
     public void setCurrency(String currency) {
         this.currency = currency;
     }
-    
+
     public String getDateUpdated() {
         return lastupdated;
     }

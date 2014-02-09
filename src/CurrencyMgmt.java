@@ -7,6 +7,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
@@ -27,6 +29,8 @@ import org.xml.sax.SAXException;
  * @author Miglen Evlogiev & Vasil Marinkov
  */
 public class CurrencyMgmt {
+
+    private static final Logger LOG = Logger.getLogger(ELUBankServer.class.getName());
 
     /**
      *
@@ -64,10 +68,10 @@ public class CurrencyMgmt {
 
     /**
      * Returns currency info by its code
-     *  
+     *
      * @param currnecyCode - valid currency code
      * @return - currency data
-     * @throws SQLException 
+     * @throws SQLException
      */
     public static Currency getCurrencyByCode(String currnecyCode) throws SQLException {
 
@@ -145,10 +149,11 @@ public class CurrencyMgmt {
      * Downloads the bnb.xml file and then parses it and inserts the data into
      * currencies table in MySQL
      *
-     * @param date - current date
      * @see downloadBnbXml method
      */
-    public static void parseXML(String date) {
+    public static void parseXML() {
+
+        String date = new SimpleDateFormat("yyyy.MM.dd").format(Calendar.getInstance().getTime());
 
         try {
             downloadBnbXml("bnb.xml");
@@ -184,16 +189,16 @@ public class CurrencyMgmt {
                     code = checkElement(eElement, "CODE", "1");
                     name = checkElement(eElement, "NAME_", "");
 
-                    System.out.println(name + " " + rate + " " + code + " " + ratio + " " + reverserate);
+                    String msg = name + " " + rate + " " + code + " " + ratio + " " + reverserate;
+                    LOG.info(msg);
 
                     String[] valuesDynamic = {name, rate, code, ratio, reverserate, date};
-
                     DatabaseMgmt.execute("INSERT INTO currencies VALUES (?, ?, ?, ?, ?, ?)", valuesDynamic);
                 }
             }
             fXmlFile.delete();
         } catch (IOException | ParserConfigurationException | SAXException | SQLException ex) {
-            Logger.getLogger(CurrencyMgmt.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.log(Level.SEVERE, null, ex);
         }
     }
 }

@@ -4,6 +4,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Logger;
 
 /**
  * MySQL Database management: connect and disconnect, as well as executing
@@ -13,14 +14,16 @@ import java.sql.SQLException;
  */
 public class DatabaseMgmt {
 
+    private static final Logger LOG = Logger.getLogger(ELUBankServer.class.getName());
+
     // JDBC driver name and database URL & credentials
     private static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
     private static final String DB_URL = "jdbc:mysql://localhost/proekt1?useUnicode=true&characterEncoding=utf-8";
     private static final String DB_USER = "proekt1";
     private static final String DB_PASS = "proekt1";
+    private static Connection _connection = null;
 
     // SQL connecting and statement variables
-    private static Connection _connection = null;
     private static PreparedStatement _preparedStmt = null;
     private static ResultSet _resultSet = null;
 
@@ -32,15 +35,11 @@ public class DatabaseMgmt {
      */
     public static void connect() throws SQLException, ClassNotFoundException {
 
+        LOG.info("Connecting to database...");
         //Register the JDBC driver
         Class.forName(JDBC_DRIVER);
-
-        System.out.println("Connecting to database...");
-
         //Start the connectio
         _connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
-
-        System.out.println("Connected to database...");
     }
 
     /**
@@ -69,11 +68,9 @@ public class DatabaseMgmt {
      */
     public static void execute(String sql) throws SQLException {
 
-        System.out.println("Executing to Mysql...");
-        System.out.println(sql);
+        LOG.info("Executing to database: ".concat(sql));
 
         _preparedStmt = _connection.prepareStatement(sql);
-
         _preparedStmt.executeUpdate();
     }
 
@@ -87,13 +84,10 @@ public class DatabaseMgmt {
     public static void execute(String sql,
             String value) throws SQLException {
 
-        System.out.println("Executing to Mysql...");
-        System.out.println(sql);
+        LOG.info("Executing to database: ".concat(sql));
 
         _preparedStmt = _connection.prepareStatement(sql);
-
         _preparedStmt.setString(1, value);
-
         _preparedStmt.executeUpdate();
     }
 
@@ -108,15 +102,13 @@ public class DatabaseMgmt {
     public static void execute(String sql,
             String[] values) throws SQLException {
 
-        System.out.println("Executing to Mysql...");
-        System.out.println(sql);
+        LOG.info("Executing to database: ".concat(sql));
 
         _preparedStmt = _connection.prepareStatement(sql);
 
         for (int i = 0; i < values.length; i++) {
             _preparedStmt.setString(i + 1, values[i]);
         }
-
         _preparedStmt.executeUpdate();
     }
 
@@ -132,15 +124,13 @@ public class DatabaseMgmt {
     public static void execute(String sql, String[] columnNames,
             String[] values) throws SQLException {
 
-        System.out.println("Executing to Mysql...");
-        System.out.println(sql);
+        LOG.info("Executing to database: ".concat(sql));
 
         _preparedStmt = _connection.prepareStatement(sql, columnNames);
 
         for (int i = 0; i < values.length; i++) {
             _preparedStmt.setString(i + 1, values[i]);
         }
-
         _preparedStmt.executeUpdate();
     }
 
@@ -154,11 +144,9 @@ public class DatabaseMgmt {
      */
     public static ResultSet select(String sql) throws SQLException {
 
-        System.out.println("Selecting from Mysql...");
-        System.out.println(sql);
+        LOG.info("Selecting from database: ".concat(sql));
 
         _preparedStmt = _connection.prepareStatement(sql);
-
         _resultSet = _preparedStmt.executeQuery();
 
         return _resultSet;
@@ -174,13 +162,10 @@ public class DatabaseMgmt {
      */
     public static ResultSet select(String sql, String value) throws SQLException {
 
-        System.out.println("Selecting from Mysql...");
-        System.out.println(sql);
+        LOG.info("Selecting from database: ".concat(sql));
 
         _preparedStmt = _connection.prepareStatement(sql);
-
         _preparedStmt.setString(1, value);
-
         _resultSet = _preparedStmt.executeQuery();
 
         return _resultSet;
@@ -196,15 +181,13 @@ public class DatabaseMgmt {
      */
     public static ResultSet select(String sql, String[] values) throws SQLException {
 
-        System.out.println("Selecting from Mysql...");
-        System.out.println(sql);
+        LOG.info("Selecting from database: ".concat(sql));
 
         _preparedStmt = _connection.prepareStatement(sql);
 
         for (int i = 0; i < values.length; i++) {
             _preparedStmt.setString(i + 1, values[i]);
         }
-
         _resultSet = _preparedStmt.executeQuery();
 
         return _resultSet;

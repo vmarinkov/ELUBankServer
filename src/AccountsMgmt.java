@@ -3,6 +3,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.logging.Logger;
 
 /**
  * Class that uses both the database management class as well as the accounts
@@ -14,6 +15,8 @@ import java.util.Calendar;
  * @author Vasil Marinkov
  */
 public class AccountsMgmt {
+
+    private static final Logger LOG = Logger.getLogger(ELUBankServer.class.getName());
 
     /**
      * Crates a new banking account (INSERT into MySQL)
@@ -47,10 +50,10 @@ public class AccountsMgmt {
 
     /**
      * Returns user's banking account by its iban
-     * 
+     *
      * @param iban - valid baking account iban
      * @return - banking account data
-     * @throws SQLException 
+     * @throws SQLException
      */
     public static Accounts getAccountByIBAN(String iban) throws SQLException {
 
@@ -77,17 +80,17 @@ public class AccountsMgmt {
      */
     public static void applyInterests() throws SQLException {
 
+        LOG.info("Checking if banking accounts interestes need to be applied...");
+
         String timeStamp = new SimpleDateFormat("yyyy.MM.dd").format(Calendar.getInstance().getTime());
-
-        System.out.println("Checking if banking accounts interestes need to be applied...");
-
-        String statement = "SELECT * FROM accounts WHERE accounttype = ?";
-        String where = "С фиксирана лихва";
-        ResultSet _resultSet = DatabaseMgmt.select(statement, where);
 
         int yearUpdated, currentYear = Integer.parseInt(timeStamp.substring(0, 4));
         int monthUpdated, currentMonth = Integer.parseInt(timeStamp.substring(5, 7));
         int dateUpdated, currentDate = Integer.parseInt(timeStamp.substring(8, 10));
+
+        String statement = "SELECT * FROM accounts WHERE accounttype = ?";
+        String where = "С фиксирана лихва";
+        ResultSet _resultSet = DatabaseMgmt.select(statement, where);
 
         while (_resultSet.next()) {
 
@@ -102,8 +105,7 @@ public class AccountsMgmt {
             if ((currentMonth - monthUpdated) > 3
                     || ((currentMonth - monthUpdated) == 3 && (currentDate >= dateUpdated))) {
 
-                System.out.println("Applying insterest for bank account: "
-                        + _resultSet.getString("IBAN"));
+                LOG.info("Applying insterest for bank account: ".concat(_resultSet.getString("IBAN")));
                 // TODO - Бубето ми е направила много сложна система за различни лихви
                 // аз в момента олихвявам с 2% на 3 месеца. Евентуална промяна.
                 Double amount = _resultSet.getDouble("amount");
