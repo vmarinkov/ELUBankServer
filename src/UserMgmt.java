@@ -70,17 +70,24 @@ public class UserMgmt {
     /**
      * Updates user password (UPDATE into MySQL)
      *
-     * @param user - object containing all new user data
+     * @param user object containing new user password
      * @throws SQLException
      */
     public static void updatePass(User user) throws SQLException {
-        // TODO: Check if username exists.
-        String[] values = {
-            hashpass(user.getPassword()),
-            user.getUsername()
-        };
+        // Prepare needed values.
+        String[] values = {hashpass(user.getPassword()), user.getUsername(), user.getEgn()};
 
-        DatabaseMgmt.execute("UPDATE users SET password = ? WHERE username = ?", values);
+        // Check if user exists.
+        String query = "SELECT egn FROM users WHERE username = ? AND egn = ? LIMIT 1";
+        ResultSet res = DatabaseMgmt.select(query, java.util.Arrays.copyOfRange(values, 1, 3));
+        if (!res.next()) {
+            user.setResponse("userNotFound");
+            return;
+        }
+
+        // Update password.
+        query = "UPDATE users SET password = ? WHERE username = ? AND egn = ? LIMIT 1";
+        DatabaseMgmt.execute(query, values);
     }
 
     /**
