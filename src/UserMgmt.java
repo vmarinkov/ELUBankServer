@@ -99,8 +99,10 @@ public class UserMgmt {
      */
     public static void deleteUser(User user) throws SQLException {
         // delete user's banking accounts
-        for (Accounts currentAccount : user.getAccounts()) {
-            AccountsMgmt.deleteBankingAccount(currentAccount);
+        if (user.getAccounts() != null) {
+            for (Accounts currentAccount : user.getAccounts()) {
+                AccountsMgmt.deleteBankingAccount(currentAccount);
+            }
         }
         // delete user's transactions
         TransactionsMgmt.deleteTransactions(user.getEgn());
@@ -283,12 +285,12 @@ public class UserMgmt {
     }
 
     /**
-     * Returns all user data along with their banking accounts and 
-     * transaction information
-     * 
+     * Returns all user data along with their banking accounts and transaction
+     * information
+     *
      * @param user containing "getAll" request
      * @return returns all user data
-     * @throws SQLException 
+     * @throws SQLException
      */
     public static User getAllUsers(User user) throws SQLException {
         ResultSet _resultSet;
