@@ -1,3 +1,4 @@
+
 import java.io.Serializable;
 
 /**
@@ -14,21 +15,28 @@ public class Transactions implements Serializable {
     private static final long serialVersionUID = 1L;
     private static final String DELIMITER = "::";
 
+    /**
+     * Representing column name from the database table "transactions"
+     */
     private String useregn, subject, receiver, iban, toiban,
             amount, currency, timestamp;
 
     /**
-     * @param request - client's request (ex: newTransaction, listTransactions)
-     * @param response - server response (used only for exceptional cases, if
-     * MySQL query fails for any reason)
+     * @param request client's request (ex: newTransaction, listTransactions)
      */
-    private String request = null, response = null;
+    private String request = null;
+
+    /**
+     * Server response is used only for exceptional cases (i.e. if MySQL query
+     * fails).
+     */
+    private String response = null;
 
     /**
      * Creates an array that can be filled with all transaction related data
      * from the database
      *
-     * @param arraySize - the number of rolls in "transactions" table, in MySQL
+     * @param arraySize the number of rolls in "transactions" table, in MySQL
      */
     public void initializeTransactionsArray(int arraySize) {
 

@@ -1,3 +1,4 @@
+
 import java.io.Serializable;
 
 /**
@@ -17,16 +18,27 @@ public class User implements Serializable {
     private static final long serialVersionUID = 1L;
     private static final String DELIMITER = "::";
 
+    /**
+     * Representing column name from the database table "users"
+     */
     private String username, password, name, surname, familyname,
             egn, dayOfBirth, monthOfBirth, yearOfBirth, country,
             city, address, phone, email, userType;
 
     /**
-     * @param request - client's request (ex: login, create)
-     * @param response - server response (used only for exceptional cases, if
-     * MySQL query fails for any reason)
+     * Client's request (e.g. "login", "create").
      */
-    private String request = null, response = null;
+    private String request = null;
+
+    /**
+     * Server response is used only for exceptional cases (i.e. if MySQL query
+     * fails).
+     */
+    private String response = null;
+
+    /**
+     * Indicates whether current user is authenticated successfully.
+     */
     private boolean loggedIn = false;
 
     public User() {
@@ -56,9 +68,9 @@ public class User implements Serializable {
 
     /**
      * Creates an array that can be filled with all user related data from the
-     * database
+     * database.
      *
-     * @param arraySize - the number of rolls in "users" table, in MySQL
+     * @param arraySize the number of rows in "users" table
      */
     public void initializeUserArray(int arraySize) {
 
@@ -71,9 +83,9 @@ public class User implements Serializable {
 
     /**
      * Creates an array that can be filled with all account related data from
-     * the database
+     * the database.
      *
-     * @param arraySize - the number of rolls in "accounts" table, in MySQL
+     * @param arraySize the number of rows in "accounts" table
      */
     public void initializeUserAccountsArray(int arraySize) {
 
@@ -86,9 +98,9 @@ public class User implements Serializable {
 
     /**
      * Creates an array that can be filled with all transaction related data
-     * from the database
+     * from the database.
      *
-     * @param arraySize - the number of rolls in "transactions" table, in MySQL
+     * @param arraySize the number of rows in "transactions" table
      */
     public void initializeUserTransactionsArray(int arraySize) {
 

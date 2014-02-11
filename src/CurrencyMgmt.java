@@ -34,8 +34,8 @@ public class CurrencyMgmt {
 
     /**
      *
-     * @param currency - currency object
-     * @return Currency object - containing all currency data extracted from
+     * @param currency currency object
+     * @return Currency object containing all currency data extracted from
      * MySQL
      * @throws SQLException
      */
@@ -69,8 +69,8 @@ public class CurrencyMgmt {
     /**
      * Returns currency info by its code
      *
-     * @param currnecyCode - valid currency code
-     * @return - currency data
+     * @param currnecyCode valid currency code
+     * @return currency data
      * @throws SQLException
      */
     public static Currency getCurrencyByCode(String currnecyCode) throws SQLException {
@@ -96,7 +96,7 @@ public class CurrencyMgmt {
      * This function downloads the currency XML file from bnb.bg to a local
      * copy.
      *
-     * @param filename - the name of the file that we be created
+     * @param filename the name of the file that we be created
      * @throws MalformedURLException
      * @throws IOException
      */

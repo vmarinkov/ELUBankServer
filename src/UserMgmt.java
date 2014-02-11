@@ -19,7 +19,7 @@ public class UserMgmt {
     /**
      * Crates a new user account (INSERT into MySQL)
      *
-     * @param user - object containing all new user data
+     * @param user object containing all new user data
      * @throws SQLException
      */
     public static void createUser(User user) throws SQLException {
@@ -40,7 +40,7 @@ public class UserMgmt {
     /**
      * Updates user account (UPDATE into MySQL)
      *
-     * @param user - object containing all new user data
+     * @param user object containing all new user data
      * @throws SQLException
      */
     public static void updateUser(User user) throws SQLException {
@@ -55,7 +55,6 @@ public class UserMgmt {
         query.deleteCharAt(query.length() - 1);
         query.append(" WHERE egn = ?");
 
-        // System.out.println(query.toString());
         String[] values = {
             user.getCountry(),
             user.getCity(),
@@ -94,7 +93,7 @@ public class UserMgmt {
     /**
      * Deletes an existing user (DELETE from MySQL)
      *
-     * @param user - Using user's EGN as a super key to specify which user
+     * @param user Using user's EGN as a super key to specify which user
      * @throws SQLException
      */
     public static void deleteUser(User user) throws SQLException {
@@ -113,9 +112,9 @@ public class UserMgmt {
     /**
      * User logIn function
      *
-     * @param username - Existing username from "users" in MySQl
-     * @param password - Existing password from "users" in MySQl
-     * @return boolean - "true" on successful login, else "false"
+     * @param username Existing username from "users" in MySQL
+     * @param password Existing password from "users" in MySQL
+     * @return boolean "true" on successful login, else "false"
      * @throws SQLException
      */
     public static boolean login(String username, String password) throws SQLException {
@@ -139,12 +138,10 @@ public class UserMgmt {
     /**
      * Retrieves all user information using its Username as key to SELECT it
      *
-     * @param user - containing valid username of a user from "users" table in
+     * @param user containing valid username of a user from "users" table in
      * MySQl
-     * @return User - object filled with all user personal information
+     * @return User object filled with all user personal information
      * @throws SQLException
-     * @see user.response: if no data found - "userNotFound" is returned as a
-     * response
      */
     public static User getUserByUsername(User user) throws SQLException {
 
@@ -182,11 +179,9 @@ public class UserMgmt {
     /**
      * Retrieves all user information using its EGN as key to SELECT it
      *
-     * @param user - containing valid EGN of a user from "users" table in MySQl
-     * @return User - object filled with all user personal information
+     * @param user containing valid EGN of a user from "users" table in MySQl
+     * @return User object filled with all user personal information
      * @throws SQLException
-     * @see user.response: if no data found - "userNotFound" is returned as a
-     * response
      */
     public static User getUserByEGN(User user) throws SQLException {
 
@@ -224,7 +219,7 @@ public class UserMgmt {
     /**
      * Retrieves user's accounts information using its EGN as key to SELECT it
      *
-     * @param user - containing valid EGN of a user from "users" table in MySQl
+     * @param user containing valid EGN of a user from "users" table in MySQl
      * @return a new user.accounts [] array properly filled with information
      * @throws SQLException
      */
@@ -331,7 +326,7 @@ public class UserMgmt {
     /**
      * Creates a double hash sum of the user's password + salt
      *
-     * @param password - the password that is going to be hashed
+     * @param password the password that is going to be hashed
      * @return encrypted user password
      * @see md5 method
      */
@@ -346,7 +341,7 @@ public class UserMgmt {
     /**
      * Used in {@link #hashpass() hashpass()}
      *
-     * @param input - a string to hash.
+     * @param input a string to hash.
      * @return Hash of the given string.
      */
     private static String md5(String input) {

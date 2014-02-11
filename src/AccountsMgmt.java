@@ -21,7 +21,7 @@ public class AccountsMgmt {
     /**
      * Crates a new banking account (INSERT into MySQL)
      *
-     * @param account - object containing all new account data
+     * @param account object containing all new account data
      * @throws SQLException
      */
     public static void createBankingAccount(Accounts account) throws SQLException {
@@ -40,7 +40,7 @@ public class AccountsMgmt {
     /**
      * Removes an existing banking account (DELETE from MySQL)
      *
-     * @param account - the user's account that is going to be removed
+     * @param account the user's account that is going to be removed
      * @throws SQLException
      */
     public static void deleteBankingAccount(Accounts account) throws SQLException {
@@ -51,8 +51,8 @@ public class AccountsMgmt {
     /**
      * Returns user's banking account by its iban
      *
-     * @param iban - valid baking account iban
-     * @return - banking account data
+     * @param iban valid baking account iban
+     * @return banking account data
      * @throws SQLException
      */
     public static Accounts getAccountByIBAN(String iban) throws SQLException {

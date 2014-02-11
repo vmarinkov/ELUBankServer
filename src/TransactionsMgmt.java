@@ -17,8 +17,8 @@ public class TransactionsMgmt {
     /**
      * Execute a new transaction
      * 
-     * @param transaction - object containing all transaction data
-     * @return - object containing error response (if there is any)
+     * @param transaction object containing all transaction data
+     * @return object containing error response (if there is any)
      * @throws SQLException 
      */
     public static Transactions newTransaction(Transactions transaction) throws SQLException {
@@ -107,7 +107,7 @@ public class TransactionsMgmt {
     /**
      * Removes all existing transactions (DELETE from MySQL)
      *
-     * @param egn - all transactions containing that EGN
+     * @param egn all transactions containing that EGN
      * @throws SQLException
      */
     public static void deleteTransactions(String egn) throws SQLException {

@@ -15,21 +15,36 @@ public class ScheduledTasks extends TimerTask {
 
     private static final Logger LOG = Logger.getLogger(ELUBankServer.class.getName());
 
-    private static final int _HOUR = 23;
-    private static final int _MINUTE = 59;
-    private static final int _SECOND = 0;
+    private static String executionTime = "23:59:00";
+
+    /**
+     * Sets when the schedule should be executed
+     *
+     * @param when exact time of execution HH:MM:SS
+     */
+    public void setExecutionTime(String when) {
+        executionTime = when;
+    }
 
     /**
      * Returns the schedule time
      *
      * @return the time (hour, minutes, seconds) at which the task should run
      */
-    public Date timeOfExecution() {
+    public Date when() {
+
+        String[] _executionTime = executionTime.split(":");
+
+        int hour = Integer.parseInt(_executionTime[0].toString());
+        int min = Integer.parseInt(_executionTime[1].toString());
+        int sec = Integer.parseInt(_executionTime[2].toString());
+
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, _HOUR);
-        calendar.set(Calendar.MINUTE, _MINUTE);
-        calendar.set(Calendar.SECOND, _SECOND);
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        calendar.set(Calendar.MINUTE, min);
+        calendar.set(Calendar.SECOND, sec);
         Date time = calendar.getTime();
+
         return time;
     }
 

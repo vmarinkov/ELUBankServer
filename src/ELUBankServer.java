@@ -36,7 +36,7 @@ public class ELUBankServer {
             AccountsMgmt.applyInterests();
             // Create a schedule that updates currencies and applies interests
             // every night at 23:59:00
-            time.schedule(newTask, newTask.timeOfExecution());
+            time.schedule(newTask, newTask.when());
             // Start the server
             LOG.info("Starting server...");
             new SSLServer().startServer();

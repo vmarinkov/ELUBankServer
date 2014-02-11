@@ -15,20 +15,27 @@ public class Accounts implements Serializable {
     private static final long serialVersionUID = 1L;
     private static final String DELIMITER = "::";
 
+    /**
+     * Representing column name from the database table "accounts"
+     */
     private String useregn, accounttype, iban, amount, currency, lastupdated;
 
     /**
-     * @param request - client's request (ex: createNewClientAccount)
-     * @param response - server response (used only for exceptional cases, if
-     * MySQL query fails for any reason)
+     * Client's request (ex: create, delete)
      */
-    private String request = null, response = null;
+    private String request = null;
+
+    /**
+     * Server response is used only for exceptional cases (i.e. if MySQL query
+     * fails).
+     */
+    private String response = null;
 
     /**
      * Creates an array that can be filled with all account related data from
      * the database
      *
-     * @param arraySize - the number of rolls in "accounts" table, in MySQL
+     * @param arraySize the number of rolls in "accounts" table, in MySQL
      */
     public void initializeAccountsArray(int arraySize) {
 

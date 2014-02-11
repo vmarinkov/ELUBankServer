@@ -63,7 +63,7 @@ public class DatabaseMgmt {
     /**
      * Used to execute INSERT, UPDATE && DELETE into MySQL DB
      *
-     * @param sql - The SQL statement
+     * @param sql The SQL statement
      * @throws SQLException
      */
     public static void execute(String sql) throws SQLException {
@@ -77,8 +77,8 @@ public class DatabaseMgmt {
     /**
      * Used to execute INSERT, UPDATE && DELETE for a SINGLE column in MySQL DB
      *
-     * @param sql - The SQL statement
-     * @param value - Value that will be managed
+     * @param sql The SQL statement
+     * @param value Value that will be managed
      * @throws SQLException
      */
     public static void execute(String sql,
@@ -95,8 +95,8 @@ public class DatabaseMgmt {
      * Used to execute INSERT, UPDATE && DELETE for MULTIPLE columns in MySQL DB
      * without specifying the columns to be updated
      *
-     * @param sql - The SQL statement
-     * @param values - Values that will be managed
+     * @param sql The SQL statement
+     * @param values Values that will be managed
      * @throws SQLException
      */
     public static void execute(String sql,
@@ -116,9 +116,9 @@ public class DatabaseMgmt {
      * Used to execute INSERT, UPDATE && DELETE for MULTIPLE columns in MySQL DB
      * by specifying the columns to be updated
      *
-     * @param sql - The SQL statement
-     * @param columnNames - Columns that we are going to work with
-     * @param values - Values that will be managed
+     * @param sql The SQL statement
+     * @param columnNames Columns that we are going to work with
+     * @param values Values that will be managed
      * @throws SQLException
      */
     public static void execute(String sql, String[] columnNames,
@@ -137,9 +137,9 @@ public class DatabaseMgmt {
     /**
      * Used to execute SELECT in MySQL DB
      *
-     * @param sql - The SQL statement
+     * @param sql The SQL statement
      *
-     * @return ResultSet - result, if any
+     * @return ResultSet result, if any
      * @throws SQLException
      */
     public static ResultSet select(String sql) throws SQLException {
@@ -155,9 +155,9 @@ public class DatabaseMgmt {
     /**
      * Used to execute SELECT of roll in MySQL DB by specifying super-key
      *
-     * @param sql - The SQL statement
-     * @param value - super-key (a roll containing that value will be selected)
-     * @return ResultSet - information contained in the selected roll
+     * @param sql The SQL statement
+     * @param value super-key (a roll containing that value will be selected)
+     * @return ResultSet information contained in the selected roll
      * @throws SQLException
      */
     public static ResultSet select(String sql, String value) throws SQLException {
@@ -174,9 +174,9 @@ public class DatabaseMgmt {
     /**
      * Used to execute SELECT of roll in MySQL DB by specifying multiple keys
      *
-     * @param sql - The SQL statement
-     * @param values - keys (a roll containing those values will be selected)
-     * @return ResultSet - information contained in the selected roll
+     * @param sql The SQL statement
+     * @param values keys (a roll containing those values will be selected)
+     * @return ResultSet information contained in the selected roll
      * @throws SQLException
      */
     public static ResultSet select(String sql, String[] values) throws SQLException {
