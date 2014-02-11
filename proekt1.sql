@@ -122,7 +122,7 @@ CREATE TABLE IF NOT EXISTS `transactions` (
   `toiban` varchar(255) NOT NULL,
   `amount` double NOT NULL,
   `currency` varchar(5) NOT NULL,
-  `timestamp` int(11) NOT NULL
+  `timestamp` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
