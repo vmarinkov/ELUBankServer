@@ -1,3 +1,4 @@
+
 import java.sql.*;
 import java.math.BigInteger;
 import java.security.*;
@@ -251,7 +252,7 @@ public class UserMgmt {
      * Retrieves user's transactions information using its EGN as key to SELECT
      * it
      *
-     * @param user - containing valid EGN of a user from "users" table in MySQl
+     * @param user containing valid EGN of a user from "users" table in MySQl
      * @return a new user.currnetUserTransactions [] array properly filled with
      * information
      * @throws SQLException
@@ -281,6 +282,14 @@ public class UserMgmt {
         return user;
     }
 
+    /**
+     * Returns all user data along with their banking accounts and 
+     * transaction information
+     * 
+     * @param user containing "getAll" request
+     * @return returns all user data
+     * @throws SQLException 
+     */
     public static User getAllUsers(User user) throws SQLException {
         ResultSet _resultSet;
 
@@ -307,6 +316,11 @@ public class UserMgmt {
             currentUser.setPhone(_resultSet.getString("phone"));
             currentUser.setEmail(_resultSet.getString("email"));
             currentUser.setUserType(_resultSet.getString("usertype"));
+            if (currentUser.getUserType().equalsIgnoreCase("2")
+                    || currentUser.getUserType().equalsIgnoreCase("3")) {
+                currentUser = getUserAccounts(currentUser);
+                currentUser = getUserTransactions(currentUser);
+            }
         }
 
         return user;
