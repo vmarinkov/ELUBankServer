@@ -4,6 +4,7 @@ import java.math.BigInteger;
 import java.security.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  * Class that uses both the database management class as well as the user class
@@ -211,6 +212,9 @@ public class UserMgmt {
                 || user.getUserType().equalsIgnoreCase("3")) {
             user = getUserAccounts(user);
             user = getUserTransactions(user);
+        } else if (user.getUserType().equalsIgnoreCase("1")){
+            JOptionPane.showMessageDialog(null, "Този клиент няма сметки, поради ограничение "
+                    + "наложено от типа на достъп !");
         }
 
         return user;
