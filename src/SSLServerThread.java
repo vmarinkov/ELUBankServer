@@ -144,9 +144,9 @@ public class SSLServerThread extends Thread {
             // handle some "users" table MySQL exceptions
         } catch (SQLException ex) {
             if (ex.getMessage().toLowerCase().contains(user.getUsername().toLowerCase())) {
-                user.setResponse("userExists");
+                user.setResponse("Вече съществува потребител с това потребителско име!");
             } else if (ex.getMessage().toLowerCase().contains(user.getEgn().toLowerCase())) {
-                user.setResponse("egnExists");
+                user.setResponse("Вече съществува потребител с това ЕГН!");
             } else {
                 LOG.log(Level.SEVERE, null, ex);
             }

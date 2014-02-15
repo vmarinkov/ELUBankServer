@@ -82,7 +82,7 @@ public class UserMgmt {
         String query = "SELECT egn FROM users WHERE username = ? AND egn = ? LIMIT 1";
         ResultSet res = DatabaseMgmt.select(query, java.util.Arrays.copyOfRange(values, 1, 3));
         if (!res.next()) {
-            user.setResponse("userNotFound");
+            user.setResponse("Не е намерен такъв потребител");
             return;
         }
 
@@ -164,7 +164,7 @@ public class UserMgmt {
             user.setEmail(_resultSet.getString("email"));
             user.setUserType(_resultSet.getString("usertype"));
         } else {
-            user.setResponse("userNotFound");
+            user.setResponse("Не е намерен потребител с това ЕГН!");
             return user;
         }
 
@@ -204,7 +204,7 @@ public class UserMgmt {
             user.setEmail(_resultSet.getString("email"));
             user.setUserType(_resultSet.getString("usertype"));
         } else {
-            user.setResponse("userNotFound");
+            user.setResponse("Не е намерен потребител с това ЕГН!");
             return user;
         }
 
