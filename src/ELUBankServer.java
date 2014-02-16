@@ -20,7 +20,6 @@ public class ELUBankServer {
 
         try {
 
-
             /**
              * Getting the settings from the configuration file and updating
              * them into the sub classes
@@ -32,7 +31,7 @@ public class ELUBankServer {
                     settingi.getString("mysql", "mysql_user", "root"), // Get the mysql user from config.ini file
                     settingi.getString("mysql", "mysql_password", ""), // Get the mysql password from config.ini file
                     settingi.getString("mysql", "mysql_encoding", "utf-8") // Get the mysql encoding from config.ini file
-                    );
+            );
 
             ScheduledTasks.setExecutionTime(settingi.getString("currency", "currency_schedule", "00:00:00")); // Get the scheduled time for the currencu from config.ini file
             CurrencyMgmt.setbnbXmlUrl(settingi.getString("currency", "currency_xmlurl", "")); // Get the url of the xml file of BNB from config.ini file
@@ -40,8 +39,7 @@ public class ELUBankServer {
                     settingi.getInt("server", "server_port", 80), // Get the server port from config.ini file
                     settingi.getString("keystore", "keystore_pass", ""), // Get the trustore password from config.ini file
                     settingi.getString("keystore", "keystore_location", "") // Get the trustore location file from config.ini file
-                    );
-
+            );
 
             // connects to the database
             DatabaseMgmt.connect();

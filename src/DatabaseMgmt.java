@@ -26,24 +26,25 @@ public class DatabaseMgmt {
     // SQL connecting and statement variables
     private static PreparedStatement _preparedStmt = null;
     private static ResultSet _resultSet = null;
-    
+
     /**
      * Function to set the settings from the configuration config.ini file
-     * 
+     *
      * @param config_host getting the mysql host from the config.ini
      * @param config_db getting the mysql db from the config.ini
      * @param config_user getting the mysql user from the config.ini
      * @param config_pass getting the mysql pass from the config.ini
-     * @param config_enc  getting the mysql encoding from the config.ini
+     * @param config_enc getting the mysql encoding from the config.ini
      */
     public static void setSettings( String config_host,
                                     String config_db,
                                     String config_user,
                                     String config_pass,
-                                    String config_enc) {
+                                    String config_enc ) {
         DB_USER = config_user;
         DB_PASS = config_pass;
-        DB_URL = "jdbc:mysql://" + config_host + "/" + config_db + "?useUnicode=true&characterEncoding=" + config_enc ;
+        DB_URL = "jdbc:mysql://" + config_host + "/" + config_db
+                + "?useUnicode=true&characterEncoding=" + config_enc;
     }
 
     /**

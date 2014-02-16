@@ -30,7 +30,8 @@ import org.xml.sax.SAXException;
  */
 public class CurrencyMgmt {
     
-    private static String bnbXmlUrl = "http://www.bnb.bg/Statistics/StExternalSector/StExchangeRates/StERForeignCurrencies/?download=xml&search=&lang=EN";
+    private static String bnbXmlUrl = "http://www.bnb.bg/Statistics/StExternalSector/"
+            + "StExchangeRates/StERForeignCurrencies/?download=xml&search=&lang=EN";
 
     private static final Logger LOG = Logger.getLogger(ELUBankServer.class.getName());
 
