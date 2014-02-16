@@ -22,7 +22,7 @@ public class ScheduledTasks extends TimerTask {
      *
      * @param when exact time of execution HH:MM:SS
      */
-    public void setExecutionTime(String when) {
+    public static void setExecutionTime(String when) {
         executionTime = when;
     }
 

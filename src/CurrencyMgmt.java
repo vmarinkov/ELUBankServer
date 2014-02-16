@@ -29,9 +29,16 @@ import org.xml.sax.SAXException;
  * @author Miglen Evlogiev & Vasil Marinkov
  */
 public class CurrencyMgmt {
+    
+    private static String bnbXmlUrl = "http://www.bnb.bg/Statistics/StExternalSector/StExchangeRates/StERForeignCurrencies/?download=xml&search=&lang=EN";
 
     private static final Logger LOG = Logger.getLogger(ELUBankServer.class.getName());
 
+    public static void setbnbXmlUrl(String config_bnbxmlurl) {
+        bnbXmlUrl = config_bnbxmlurl;
+    }
+    
+    
     /**
      *
      * @param currency currency object
@@ -102,8 +109,7 @@ public class CurrencyMgmt {
      */
     public static void downloadBnbXml(String filename) throws MalformedURLException, IOException {
 
-        String bnbXmlUrl = "http://www.bnb.bg/Statistics/StExternalSector/"
-                + "StExchangeRates/StERForeignCurrencies/?download=xml&search=&lang=EN";
+
 
         BufferedInputStream in = null;
         FileOutputStream fout = null;
