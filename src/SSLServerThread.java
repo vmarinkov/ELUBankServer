@@ -145,8 +145,10 @@ public class SSLServerThread extends Thread {
         } catch (SQLException ex) {
             if (ex.getMessage().toLowerCase().contains(user.getUsername().toLowerCase())) {
                 user.setResponse("Вече съществува потребител с това потребителско име!");
+                LOG.info("An error occured! Response sent: ".concat(user.getResponse()));
             } else if (ex.getMessage().toLowerCase().contains(user.getEgn().toLowerCase())) {
                 user.setResponse("Вече съществува потребител с това ЕГН!");
+                LOG.info("An error occured! Response sent: ".concat(user.getResponse()));
             } else {
                 LOG.log(Level.SEVERE, null, ex);
             }
@@ -177,6 +179,7 @@ public class SSLServerThread extends Thread {
         } catch (SQLException ex) {
             if (ex.getMessage().toLowerCase().contains(accounts.getIBAN().toLowerCase())) {
                 accounts.setResponse("ibanExists");
+                LOG.info("An error occured! Response sent: ".concat(accounts.getResponse()));
             } else {
                 LOG.log(Level.SEVERE, null, ex);
             }

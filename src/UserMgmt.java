@@ -15,6 +15,8 @@ import java.util.logging.Logger;
  * @author Miglen Evlogiev & Vasil Marinkov
  */
 public class UserMgmt {
+    
+    private static final Logger LOG = Logger.getLogger(ELUBankServer.class.getName());
 
     /**
      * Crates a new user account (INSERT into MySQL)
@@ -82,6 +84,7 @@ public class UserMgmt {
         ResultSet res = DatabaseMgmt.select(query, java.util.Arrays.copyOfRange(values, 1, 3));
         if (!res.next()) {
             user.setResponse("Не е намерен такъв потребител");
+            LOG.info("An error occured! Response sent: ".concat(user.getResponse()));
             return;
         }
 
@@ -163,7 +166,8 @@ public class UserMgmt {
             user.setEmail(_resultSet.getString("email"));
             user.setUserType(_resultSet.getString("usertype"));
         } else {
-            user.setResponse("Не е намерен потребител с това ЕГН!");
+            user.setResponse("Не е намерен такъв потребител");
+            LOG.info("An error occured! Response sent: ".concat(user.getResponse()));
             return user;
         }
 
@@ -203,7 +207,8 @@ public class UserMgmt {
             user.setEmail(_resultSet.getString("email"));
             user.setUserType(_resultSet.getString("usertype"));
         } else {
-            user.setResponse("Не е намерен потребител с това ЕГН!");
+            user.setResponse("Не е намерен такъв потребител");
+            LOG.info("An error occured! Response sent: ".concat(user.getResponse()));
             return user;
         }
 
