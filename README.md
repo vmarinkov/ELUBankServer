@@ -13,6 +13,8 @@ ELUBank
 	
 	TASKS(current):
 	
+	!!! http://en.wikipedia.org/wiki/Log4j
+	
            IMPORTANT: Относно документацията - пробвах да генерирам javadoc от NetBeans и имаше следните грешки:
          - оказва се, че когато ползваме default package всички *.java файлове в главната source директория на проекта
            не влизат в документацията и generate javadoc дава грешка. Вижте последния commit в клиент частта как да се оправи.
